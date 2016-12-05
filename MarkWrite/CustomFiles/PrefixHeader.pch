@@ -1,0 +1,23 @@
+//
+//  PrefixHeader.pch
+//  MarkWrite
+//
+//  Created by 彭启伟 on 2016/12/1.
+//  Copyright © 2016年 彭启伟. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import "Adaption.h"
+#import "CustomConfig.h"
+#import "UIColor+hex.h"
+
+#import "SettingViewController.h"
+#import "EditViewController.h"
+#import "PreviewViewController.h"
+#import "QWPTools.h"
+#import "AboutUsViewController.h"
+#import "LabelSizeToFit.h"
+
+#endif /* PrefixHeader_pch */
