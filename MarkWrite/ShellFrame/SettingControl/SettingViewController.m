@@ -139,12 +139,15 @@
             }
         }
             break;
+            
         case 3: {
             AboutUsViewController *aboutVC = [[AboutUsViewController alloc] init];
             [self.navigationController pushViewController:aboutVC animated:YES];
         }
             break;
+            
         case 4: {
+           
             [QWPTools showMessageWithTitle:@"给口狗粮" content:@"MartWrite是一款很实用的App，如果您觉得这款软件还适合您的话请给口狗粮吧，谢谢！" buttonTitles:@[@"取消",@"狗粮6元"] clickedHandle:^(NSInteger index) {
                 
             } compeletedHandle:^{
@@ -156,6 +159,7 @@
         default:
             break;
     }
+    
 }
 #pragma mark - CellSwitchClickDelegate
 - (void)cellSwitchClick:(UISwitch *)sender {

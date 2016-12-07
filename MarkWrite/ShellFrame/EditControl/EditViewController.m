@@ -11,6 +11,8 @@
 
 @interface EditViewController ()
 
+@property (nonatomic, strong) UITextView *editView;
+
 @end
 
 @implementation EditViewController
@@ -35,12 +37,18 @@
     UIBarButtonItem *previewBtn = [[UIBarButtonItem alloc] initWithTitle:@"预览" style:UIBarButtonItemStyleDone target:self action:@selector(previewAction)];
     self.navigationItem.rightBarButtonItem = previewBtn;
     
+    //主视图
+    _editView = [[UITextView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:_editView];
+    
     //辅助键盘
     SecondaryKeyboardView *secondKeyboard = [[SecondaryKeyboardView alloc] initWithFrame:AAdaptionRect(0, 250, 750, 85) grammar:^(UIButton *sender) {
         
         [self grammarChoose:sender.tag];
     }];
-    [self.view addSubview:secondKeyboard];
+//    [self.view addSubview:secondKeyboard];
+    
+    _editView.inputAccessoryView = secondKeyboard;
 }
 
 #pragma mark - Button Action

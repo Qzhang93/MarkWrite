@@ -9,7 +9,7 @@
 #import "MasterViewController.h"
 #import "MasterTableViewCell.h"
 
-@interface MasterViewController ()<UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource>
+@interface MasterViewController ()<UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
 //主视图
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -187,7 +187,7 @@
     
 }
 
-#pragma mark - UITableViewDataSource
+#pragma mark - <UITableViewDelegate,UITableViewDataSource>
 //行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -206,6 +206,17 @@
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
     return cell;
+}
+
+#pragma mark - <UIScrollViewDelegate>
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    NSLog(@"向下");
+}
+
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
+    
+    NSLog(@"向上");
 }
 
 #pragma mark - getter
