@@ -14,6 +14,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSInteger sectionNum;
 @property (nonatomic, strong) NSArray *sectionTitle;
+@property (nonatomic, assign) BOOL isOpen;
+@property (nonatomic, assign) BOOL isClose;
 
 @end
 
@@ -26,6 +28,8 @@
 #pragma mark - UI
 - (void)initUserInterface {
     self.title = @"设置";
+    _isOpen = NO;
+    _isClose = YES;
     _sectionNum = 1;
     _sectionTitle = @[@"密码和TouchID"];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -83,6 +87,7 @@
                         break;
                     case 2: {
                         cell.switchButton.hidden = NO;
+                        [cell.switchButton setOn:_isOpen];
                     }
                         break;
                         
@@ -181,26 +186,62 @@
 }
 #pragma mark - CellSwitchClickDelegate
 - (void)cellSwitchClick:(UISwitch *)sender {
-    switch (sender.tag) {
-        case 0: {
-            
+//    switch (sender.tag) {
+//        case 0: {
+//            
+//        }
+//            break;
+//        case 2: {
+//            if (sender.isOn) {
+//                _sectionNum = 3;
+//                _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
+//                [self.tableView reloadData];
+//            }else {
+//                _sectionNum = 1;
+//                _sectionTitle = @[@"密码和TouchID"];
+//                [self.tableView reloadData];
+//            }
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
+    if (sender.tag == 0.0) {
+        if (sender.isOn) {
+            NSLog(@"0开启");
+        }else {
+            NSLog(@"0关闭");
         }
-            break;
-        case 2: {
-            if (sender.isOn) {
-                _sectionNum = 3;
-                _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
-                [self.tableView reloadData];
-            }else {
-                _sectionNum = 1;
-                _sectionTitle = @[@"密码和TouchID"];
-                [self.tableView reloadData];
-            }
+    }else if (sender.tag == 2.0) {
+        if (sender.isOn) {
+            _sectionNum = 3;
+            _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
+            [self.tableView reloadData];
+        }else {
+            _sectionNum = 1;
+            _sectionTitle = @[@"密码和TouchID"];
+            _isOpen = NO;
+            [self closeTouchID];
+            [self.tableView reloadData];
         }
-            break;
-            
-        default:
-            break;
+    }else if (sender.tag == 4.0) {
+        if (sender.isOn) {
+            NSLog(@"开启");
+            _isClose = NO;
+        }else {
+            NSLog(@"关闭");
+            _isClose = YES;
+        }
+    }
+}
+#pragma mark - Events
+- (void)closeTouchID {
+    if (_isClose) {
+        
+    }else {
+        NSLog(@"close TouchID");
+        _isClose = YES;
     }
 }
 #pragma mark - getter

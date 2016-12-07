@@ -22,7 +22,9 @@
 - (void)setupUIWithSection:(NSInteger)section {
     _switchButton = [[UISwitch alloc] initWithFrame:AAdaptionRect(600, 15, 100, 80)];
     _switchButton.hidden = YES;
-    _switchButton.tag = section;
+    NSString *string = [NSString stringWithFormat:@"%ld",section];
+    NSLog(@"%f",string.floatValue);
+    _switchButton.tag = string.floatValue;
     [_switchButton setOn:NO];
     [_switchButton addTarget:self action:@selector(switchButtonAction:) forControlEvents:UIControlEventValueChanged];
     [self.contentView addSubview:_switchButton];
