@@ -12,6 +12,8 @@
 @interface MasterViewController ()<UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
 //主视图
 @property (nonatomic, strong) UITableView *tableView;
+//Y轴偏移量
+@property (nonatomic, assign) CGFloat oldY;
 
 //排序
 @property (nonatomic, strong) UIBarButtonItem *sortButton;
@@ -49,10 +51,19 @@
     [self initUserInterface];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [self showNewFileBtn];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self hideNewFileBtn];
 }
 
 #pragma mark - UI
@@ -114,14 +125,16 @@
     
     //新建按钮
     _NewFileButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _NewFileButton.frame = AAdaptionRect(315, 1008, 120, 120);
+    _NewFileButton.frame = AAdaptionRect(315, 1334, 120, 120);
     [_NewFileButton setBackgroundImage:IMGNAME(@"add_new") forState:UIControlStateNormal];
+    [_NewFileButton addTarget:self action:@selector(scaledBtn) forControlEvents:UIControlEventTouchDown];
     [_NewFileButton addTarget:self action:@selector(addNewFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_NewFileButton];
     
     [self.view bringSubviewToFront:_sortView];
     [self.view insertSubview:_blackView belowSubview:_sortView];
 }
+
 
 #pragma mark - Events
 //排序
@@ -165,7 +178,15 @@
 //新建
 - (void)addNewFile {
     
-    [self.navigationController pushViewController:[EditViewController new] animated:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        _NewFileButton.transform = CGAffineTransformIdentity;
+        
+    } completion:^(BOOL finished) {
+        
+        [self.navigationController pushViewController:[EditViewController new] animated:YES];
+    }];
+    
 }
 
 - (void)gesturePressed{
@@ -173,11 +194,37 @@
     [self withdrawSortAction];
 }
 
+#pragma mark - Animation Method
 - (void)withdrawSortAction{
     
     _blackView.hidden = !_blackView.hidden;
     [UIView animateWithDuration:0.3 animations:^{
         _sortView.frame = CGRectMake(0, _sortView.frame.origin.y == 0 ? -AAdaption(181) : 0, SCREEN_W, AAdaption(181));
+    }];
+}
+
+- (void)hideNewFileBtn{
+    
+    [UIView animateWithDuration:0.7 animations:^{
+        
+        _NewFileButton.frame = AAdaptionRect(315, 1334, 120, 120);
+    }];
+}
+
+- (void)showNewFileBtn{
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        _NewFileButton.frame = AAdaptionRect(315, 1008, 120, 120);
+    }];
+}
+
+- (void)scaledBtn{
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        _NewFileButton.transform = CGAffineTransformMakeScale(0.7, 0.7);
+        
     }];
 }
 
@@ -211,13 +258,23 @@
 #pragma mark - <UIScrollViewDelegate>
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    NSLog(@"向下");
+    if ([scrollView isEqual: self.tableView]) {
+        if (self.tableView.contentOffset.y > _oldY) {
+            // 向下滚动
+            [self hideNewFileBtn];
+        }
+        else{
+            // 向上滚动
+            [self showNewFileBtn];
+        }
+    }
 }
 
-- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
-    
-    NSLog(@"向上");
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    // 获取开始拖拽时tableview偏移量
+    _oldY = _tableView.contentOffset.y;
 }
+
 
 #pragma mark - getter
 - (UISearchController *)searchController{
