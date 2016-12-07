@@ -23,7 +23,11 @@
     _switchButton = [[UISwitch alloc] initWithFrame:AAdaptionRect(600, 15, 100, 80)];
     _switchButton.hidden = YES;
     _switchButton.tag = section;
-    [_switchButton setOn:NO];
+    if (section == 0) {
+        _switchButton.on = YES;
+    } else {
+        [_switchButton setOn:NO];
+    }
     [_switchButton addTarget:self action:@selector(switchButtonAction:) forControlEvents:UIControlEventValueChanged];
     [self.contentView addSubview:_switchButton];
 }

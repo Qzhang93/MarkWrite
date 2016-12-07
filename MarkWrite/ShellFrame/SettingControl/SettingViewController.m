@@ -182,10 +182,20 @@
 #pragma mark - CellSwitchClickDelegate
 - (void)cellSwitchClick:(UISwitch *)sender {
     switch (sender.tag) {
+            
+        //辅助键盘开关
         case 0: {
             
+            if (sender.on == YES) {
+                NSLog(@"!!!");
+            } else {
+                
+                NSLog(@"???");
+            }
         }
             break;
+            
+        //密码开关
         case 2: {
             if (sender.isOn) {
                 _sectionNum = 3;
