@@ -37,11 +37,8 @@
     _logoImageView.layer.cornerRadius = 10;
     [self.view addSubview:_logoImageView];
     //版本
-<<<<<<< HEAD
     _version = [[UILabel alloc] initWithFrame:AAdaptionRect(0, 340, 750, 30)];
-=======
     _version = [[UILabel alloc] initWithFrame:AAdaptionRect(275, 340, 200, 30)];
->>>>>>> f96caf89b84e3de0091abfa90859ddfcd311acde
     _version.textColor = RGBCOLOR(89, 89, 89, 1.0);
     _version.textAlignment = NSTextAlignmentCenter;
     _version.font = AAFont(22);
