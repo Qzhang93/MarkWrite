@@ -27,7 +27,7 @@
 - (void)initUserInterface {
     self.title = @"设置";
     _sectionNum = 1;
-    _sectionTitle = @[@"密码"];
+    _sectionTitle = @[@"密码和TouchID"];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tableView];
 }
@@ -189,11 +189,11 @@
         case 2: {
             if (sender.isOn) {
                 _sectionNum = 3;
-                _sectionTitle = @[@"密码和TouchID",@"修改密码",@"TouchID"];
+                _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
                 [self.tableView reloadData];
             }else {
                 _sectionNum = 1;
-                _sectionTitle = @[@"密码"];
+                _sectionTitle = @[@"密码和TouchID"];
                 [self.tableView reloadData];
             }
         }
