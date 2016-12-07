@@ -125,11 +125,11 @@
     switch (indexPath.section) {
         case 1: {
             switch (indexPath.row) {
-                case 1: {
-                    
+                case 0: {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/shan-shan-pen-di-fu-nu-jian/id1049660516?mt=8"]];
                 }
                     break;
-                case 2: {
+                case 1: {
                     
                 }
                     break;
