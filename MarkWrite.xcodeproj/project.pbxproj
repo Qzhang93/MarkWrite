@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0409582E1DF803C900ED03DA /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409582D1DF803C900ED03DA /* ChangePasswordViewController.m */; };
 		042662261DF0054100800478 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 042662251DF0054100800478 /* main.m */; };
 		042662541DF00E8D00800478 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042662511DF00E8D00800478 /* MasterViewController.m */; };
 		042662661DF00FCC00800478 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042662651DF00FCC00800478 /* Assets.xcassets */; };
@@ -28,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0409582C1DF803C900ED03DA /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		0409582D1DF803C900ED03DA /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
 		042662211DF0054100800478 /* MarkWrite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarkWrite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		042662251DF0054100800478 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0426624B1DF00DF800800478 /* Adaption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Adaption.h; sourceTree = "<group>"; };
@@ -75,6 +78,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0409582B1DF803B100ED03DA /* ChangePassword */ = {
+			isa = PBXGroup;
+			children = (
+				0409582C1DF803C900ED03DA /* ChangePasswordViewController.h */,
+				0409582D1DF803C900ED03DA /* ChangePasswordViewController.m */,
+			);
+			path = ChangePassword;
+			sourceTree = "<group>";
+		};
 		042662181DF0054100800478 = {
 			isa = PBXGroup;
 			children = (
@@ -193,6 +205,7 @@
 		F382BB8A1DF255D50057D5DA /* SettingControl */ = {
 			isa = PBXGroup;
 			children = (
+				0409582B1DF803B100ED03DA /* ChangePassword */,
 				F382BB8B1DF255D50057D5DA /* AboutMarkWrite */,
 				F382BB8E1DF255D50057D5DA /* SettingTableViewCell.h */,
 				F382BB8F1DF255D50057D5DA /* SettingTableViewCell.m */,
@@ -290,6 +303,7 @@
 				F382BB9A1DF256780057D5DA /* QWPTools.m in Sources */,
 				F30164BF1DF7E3E4007A9B17 /* SecondaryKeyboardView.m in Sources */,
 				042662801DF01ADE00800478 /* PreviewViewController.m in Sources */,
+				0409582E1DF803C900ED03DA /* ChangePasswordViewController.m in Sources */,
 				042662261DF0054100800478 /* main.m in Sources */,
 				F382BB971DF256080057D5DA /* LabelSizeToFit.m in Sources */,
 				F382BB921DF255D50057D5DA /* AboutUsViewController.m in Sources */,

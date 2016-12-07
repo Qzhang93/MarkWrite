@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "SettingTableViewCell.h"
+#import "ChangePasswordViewController.h"
 
 @interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource,CellSwitchClickDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -77,6 +78,7 @@
                         break;
                     case 1: {
                         cell.switchButton.hidden = YES;
+                        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     }
                         break;
                     case 2: {
@@ -140,6 +142,22 @@
         }
             break;
             
+        case 2: {
+            if (_sectionTitle.count == 3) {
+                switch (indexPath.row) {
+                    case 1: {
+                        ChangePasswordViewController *vc = [[ChangePasswordViewController alloc] init];
+                        [self.navigationController pushViewController:vc animated:YES];
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+        }
+            break;
+            
         case 3: {
             AboutUsViewController *aboutVC = [[AboutUsViewController alloc] init];
             [self.navigationController pushViewController:aboutVC animated:YES];
@@ -171,7 +189,7 @@
         case 2: {
             if (sender.isOn) {
                 _sectionNum = 3;
-                _sectionTitle = @[@"touchID",@"pass",@"mima"];
+                _sectionTitle = @[@"密码和TouchID",@"修改密码",@"TouchID"];
                 [self.tableView reloadData];
             }else {
                 _sectionNum = 1;
