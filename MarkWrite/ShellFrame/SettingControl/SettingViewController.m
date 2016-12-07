@@ -186,53 +186,7 @@
 }
 #pragma mark - CellSwitchClickDelegate
 - (void)cellSwitchClick:(UISwitch *)sender {
-    switch (sender.tag) {
-            
-            //辅助键盘开关
-        case 0: {
-            
-            if (sender.on == YES) {
-                NSLog(@"!!!");
-            } else {
-                
-                NSLog(@"???");
-            }
-        }
-            break;
-            
-            //密码开关
-        case 2: {
-            if (sender.isOn) {
-                _sectionNum = 3;
-                _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
-                [self.tableView reloadData];
-            }else {
-                _sectionNum = 1;
-                _sectionTitle = @[@"密码和TouchID"];
-                [self.tableView reloadData];
-            }
-            //    switch (sender.tag) {
-            //        case 0: {
-            //
-            //        }
-            //            break;
-            //        case 2: {
-            //            if (sender.isOn) {
-            //                _sectionNum = 3;
-            //                _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
-            //                [self.tableView reloadData];
-            //            }else {
-            //                _sectionNum = 1;
-            //                _sectionTitle = @[@"密码和TouchID"];
-            //                [self.tableView reloadData];
-            //            }
-            //        }
-            //            break;
-            //
-            //        default:
-            //            break;
-            //    }
-            if (sender.tag == 0.0) {
+    if (sender.tag == 0.0) {
                 if (sender.isOn) {
                     NSLog(@"0开启");
                 }else {
@@ -259,8 +213,6 @@
                     _isClose = YES;
                 }
             }
-        }
-    }
 }
 
 #pragma mark - Events
