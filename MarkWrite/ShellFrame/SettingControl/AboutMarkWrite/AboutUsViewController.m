@@ -30,12 +30,12 @@
 - (void)initUserInterface {
     self.view.backgroundColor = COLOR(whiteColor);
     //logo
-    _logoImageView = [[UIImageView alloc] initWithFrame:AAdaptionRect(kwidth - 200 / 2, 120, 200, 200)];
+    _logoImageView = [[UIImageView alloc] initWithFrame:AAdaptionRect(275, 120, 200, 200)];
     _logoImageView.backgroundColor = COLOR(cyanColor);
     _logoImageView.layer.cornerRadius = 10;
     [self.view addSubview:_logoImageView];
     //版本
-    _version = [[UILabel alloc] initWithFrame:AAdaptionRect(kwidth - 200 / 2, 340, 200, 30)];
+    _version = [[UILabel alloc] initWithFrame:AAdaptionRect(275, 340, 200, 30)];
     _version.textColor = RGBCOLOR(89, 89, 89, 1.0);
     _version.textAlignment = NSTextAlignmentCenter;
     _version.font = AAFont(22);
