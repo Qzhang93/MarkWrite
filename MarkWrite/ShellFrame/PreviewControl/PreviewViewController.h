@@ -10,4 +10,6 @@
 
 @interface PreviewViewController : UIViewController
 
+@property(nonatomic, strong) NSString *fileTitle;
+
 @end

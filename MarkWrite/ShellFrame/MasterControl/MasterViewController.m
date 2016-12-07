@@ -165,6 +165,7 @@
 //新建
 - (void)addNewFile {
     
+    [self.navigationController pushViewController:[EditViewController new] animated:YES];
 }
 
 - (void)gesturePressed{

@@ -15,6 +15,8 @@
 		0426627D1DF01ACB00800478 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426627C1DF01ACB00800478 /* EditViewController.m */; };
 		042662801DF01ADE00800478 /* PreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426627F1DF01ADE00800478 /* PreviewViewController.m */; };
 		042662861DF0267E00800478 /* MasterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 042662851DF0267E00800478 /* MasterTableViewCell.m */; };
+		F30164BF1DF7E3E4007A9B17 /* SecondaryKeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30164BE1DF7E3E4007A9B17 /* SecondaryKeyboardView.m */; };
+		F30164C11DF7E610007A9B17 /* MarkdownGrammar.plist in Resources */ = {isa = PBXBuildFile; fileRef = F30164C01DF7E610007A9B17 /* MarkdownGrammar.plist */; };
 		F36A1A891DF0331E00AFBD3A /* UIColor+hex.m in Sources */ = {isa = PBXBuildFile; fileRef = F36A1A881DF0331E00AFBD3A /* UIColor+hex.m */; };
 		F36A1AC31DF150A400AFBD3A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F36A1AC21DF150A400AFBD3A /* Info.plist */; };
 		F382BB921DF255D50057D5DA /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB8D1DF255D50057D5DA /* AboutUsViewController.m */; };
@@ -42,6 +44,9 @@
 		0426627F1DF01ADE00800478 /* PreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewViewController.m; sourceTree = "<group>"; };
 		042662841DF0267E00800478 /* MasterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterTableViewCell.h; sourceTree = "<group>"; };
 		042662851DF0267E00800478 /* MasterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterTableViewCell.m; sourceTree = "<group>"; };
+		F30164BD1DF7E3E4007A9B17 /* SecondaryKeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondaryKeyboardView.h; sourceTree = "<group>"; };
+		F30164BE1DF7E3E4007A9B17 /* SecondaryKeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondaryKeyboardView.m; sourceTree = "<group>"; };
+		F30164C01DF7E610007A9B17 /* MarkdownGrammar.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MarkdownGrammar.plist; sourceTree = "<group>"; };
 		F36A1A871DF0331E00AFBD3A /* UIColor+hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+hex.h"; sourceTree = "<group>"; };
 		F36A1A881DF0331E00AFBD3A /* UIColor+hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+hex.m"; sourceTree = "<group>"; };
 		F36A1A8A1DF0333400AFBD3A /* CustomConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomConfig.h; sourceTree = "<group>"; };
@@ -138,6 +143,8 @@
 			children = (
 				0426627B1DF01ACB00800478 /* EditViewController.h */,
 				0426627C1DF01ACB00800478 /* EditViewController.m */,
+				F30164BD1DF7E3E4007A9B17 /* SecondaryKeyboardView.h */,
+				F30164BE1DF7E3E4007A9B17 /* SecondaryKeyboardView.m */,
 			);
 			path = EditControl;
 			sourceTree = "<group>";
@@ -178,6 +185,7 @@
 			children = (
 				042662651DF00FCC00800478 /* Assets.xcassets */,
 				F382BB9B1DF256A50057D5DA /* MarkWrite.rtf */,
+				F30164C01DF7E610007A9B17 /* MarkdownGrammar.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -265,6 +273,7 @@
 				0426627A1DF0141F00800478 /* LaunchScreen.storyboard in Resources */,
 				F382BB9C1DF256A50057D5DA /* MarkWrite.rtf in Resources */,
 				042662661DF00FCC00800478 /* Assets.xcassets in Resources */,
+				F30164C11DF7E610007A9B17 /* MarkdownGrammar.plist in Resources */,
 				F36A1AC31DF150A400AFBD3A /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,6 +288,7 @@
 				0426627D1DF01ACB00800478 /* EditViewController.m in Sources */,
 				042662541DF00E8D00800478 /* MasterViewController.m in Sources */,
 				F382BB9A1DF256780057D5DA /* QWPTools.m in Sources */,
+				F30164BF1DF7E3E4007A9B17 /* SecondaryKeyboardView.m in Sources */,
 				042662801DF01ADE00800478 /* PreviewViewController.m in Sources */,
 				042662261DF0054100800478 /* main.m in Sources */,
 				F382BB971DF256080057D5DA /* LabelSizeToFit.m in Sources */,
