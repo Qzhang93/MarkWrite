@@ -10,19 +10,27 @@
 
 @implementation SettingTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier section:(NSInteger)section
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self setupUI];
+        [self setupUIWithSection:section];
     }
     return self;
 }
 
-- (void)setupUI {
-    _switchView = [[UISwitch alloc] initWithFrame:AAdaptionRect(600, 13, 100, 80)];
-    _switchView.hidden = YES;
-    [self.contentView addSubview:_switchView];
+- (void)setupUIWithSection:(NSInteger)section {
+    _switchButton = [[UISwitch alloc] initWithFrame:AAdaptionRect(600, 15, 100, 80)];
+    _switchButton.hidden = YES;
+    _switchButton.tag = section;
+    [_switchButton setOn:NO];
+    [_switchButton addTarget:self action:@selector(switchButtonAction:) forControlEvents:UIControlEventValueChanged];
+    [self.contentView addSubview:_switchButton];
 }
+
+- (void)switchButtonAction:(UISwitch *)sender {
+    [self.delegate cellSwitchClick:sender];
+}
+
 
 @end
