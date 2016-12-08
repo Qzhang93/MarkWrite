@@ -147,15 +147,21 @@
         }
             break;
             
+        //按修改时间排序
         case 101:
         {
             _checkView.frame = AAdaptionRect(550, 25, 40, 40);
+            [self withdrawSortAction];
+            [_tableView reloadData];
         }
             break;
             
+        //按文件名排序
         case 102:
         {
             _checkView.frame = AAdaptionRect(550, 116, 40, 40);
+            [self withdrawSortAction];
+            [_tableView reloadData];
         }
             break;
             

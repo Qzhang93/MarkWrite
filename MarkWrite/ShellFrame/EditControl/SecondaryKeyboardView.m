@@ -19,7 +19,6 @@
         
         self.grammar = grammar;
         NSArray *grammarTitle = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MarkdownGrammar" ofType:@"plist"]];
-        NSLog(@"%@",grammarTitle);
         
         NSInteger count = grammarTitle.count;       /**< button数量 */
         CGFloat button_H = frame.size.height;       /**< button高度 */

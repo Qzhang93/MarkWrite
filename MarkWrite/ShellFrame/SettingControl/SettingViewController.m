@@ -16,7 +16,6 @@
 @property (nonatomic, strong) NSArray *sectionTitle;
 @property (nonatomic, assign) BOOL isOpen;
 @property (nonatomic, assign) BOOL isClose;
-
 @end
 
 @implementation SettingViewController
@@ -62,6 +61,7 @@
         case 0: {
             cell.textLabel.text = @"辅助键盘";
             cell.switchButton.hidden = NO;
+            cell.switchButton.on = YES;
         }
             break;
         case 1: {
@@ -186,13 +186,19 @@
 }
 #pragma mark - CellSwitchClickDelegate
 - (void)cellSwitchClick:(UISwitch *)sender {
+    
+    //辅助键盘开关
     if (sender.tag == 0.0) {
                 if (sender.isOn) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"showSecondaryKeyboard" object:nil];
                     NSLog(@"0开启");
                 }else {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideSecondaryKeyboard" object:nil];
                     NSLog(@"0关闭");
                 }
-            }else if (sender.tag == 2.0) {
+            }
+    //密码开关
+    else if (sender.tag == 2.0) {
                 if (sender.isOn) {
                     _sectionNum = 3;
                     _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
@@ -204,7 +210,9 @@
                     [self closeTouchID];
                     [self.tableView reloadData];
                 }
-            }else if (sender.tag == 4.0) {
+            }
+    //touchID开关
+    else if (sender.tag == 4.0) {
                 if (sender.isOn) {
                     NSLog(@"开启");
                     _isClose = NO;

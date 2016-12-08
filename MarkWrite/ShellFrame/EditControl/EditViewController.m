@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) UITextView *editView;
 
+@property (nonatomic, strong) SecondaryKeyboardView *secondKeyboard;
+
 @end
 
 @implementation EditViewController
@@ -27,6 +29,9 @@
     self.navigationItem.backBarButtonItem = backItem;
     
     [self setUserInterface];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSecondaryKeyboard) name:@"hideSecondaryKeyboard" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSecondaryKeyboard) name:@"showSecondaryKeyboard" object:nil];
 }
 
 #pragma mark - UserInterface
@@ -42,13 +47,12 @@
     [self.view addSubview:_editView];
     
     //辅助键盘
-    SecondaryKeyboardView *secondKeyboard = [[SecondaryKeyboardView alloc] initWithFrame:AAdaptionRect(0, 250, 750, 85) grammar:^(UIButton *sender) {
+    _secondKeyboard = [[SecondaryKeyboardView alloc] initWithFrame:AAdaptionRect(0, 250, 750, 85) grammar:^(UIButton *sender) {
         
         [self grammarChoose:sender.tag];
     }];
-//    [self.view addSubview:secondKeyboard];
     
-    _editView.inputAccessoryView = secondKeyboard;
+    _editView.inputAccessoryView = _secondKeyboard;
 }
 
 #pragma mark - Button Action
@@ -63,60 +67,71 @@
     
     NSInteger index = tag - 200;
     switch (index) {
+            
+        //tab
         case 0:
         {
             NSLog(@"%ld",index);
         }
             break;
             
+        //#
         case 1:
         {
             NSLog(@"%ld",index);
         }
             break;
-            
+          
+        //link
         case 2:
         {
             NSLog(@"%ld",index);
         }
             break;
-            
+          
+        //Img
         case 3:
         {
             NSLog(@"%ld",index);
         }
             break;
             
+        //Space
         case 4:
         {
             NSLog(@"%ld",index);
         }
             break;
             
+        //*
         case 5:
         {
             NSLog(@"%ld",index);
         }
             break;
-            
+        
+        //>
         case 6:
         {
             NSLog(@"%ld",index);
         }
             break;
             
+        //-
         case 7:
         {
             NSLog(@"%ld",index);
         }
             break;
             
+        //~~
         case 8:
         {
             NSLog(@"%ld",index);
         }
             break;
             
+        //[ ]
         case 9:
         {
             NSLog(@"%ld",index);
@@ -126,6 +141,16 @@
         default:
             break;
     }
+}
+
+- (void)hideSecondaryKeyboard{
+    
+    _secondKeyboard.hidden = YES;
+}
+
+- (void)showSecondaryKeyboard{
+    
+    _secondKeyboard.hidden = NO;
 }
 
 
