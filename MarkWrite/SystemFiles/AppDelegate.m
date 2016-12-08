@@ -10,7 +10,9 @@
 #import "MasterViewController.h"
 
 @interface AppDelegate ()
-
+@property (nonatomic, assign) NSNumber *pKeyboredStatus;
+@property (nonatomic, assign) NSNumber *tKeyboredStatus;
+@property (nonatomic, strong) NSString *filePath;
 @end
 
 @implementation AppDelegate
@@ -31,6 +33,18 @@
     nav.navigationBar.barTintColor = DOMINANTHUE;
     nav.navigationBar.tintColor = COLOR(whiteColor);
     
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]){
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+        //第一次启动
+        //键盘状态
+        NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
+        [status setBool:YES forKey:@"aKeyboredStatus"];
+        [status setBool:NO forKey:@"pKeyboredStatus"];
+        [status setBool:NO forKey:@"tKeyboredStatus"];
+    }else{
+        //不是第一次启动了
+        
+    }
     return YES;
 }
 
