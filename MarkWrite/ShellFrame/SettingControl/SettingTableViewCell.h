@@ -16,7 +16,7 @@
 
 @interface SettingTableViewCell : UITableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier section:(NSInteger)section;
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier section:(NSInteger)section row:(NSInteger)row;
 
 @property (nonatomic, strong) UISwitch *switchButton;
 

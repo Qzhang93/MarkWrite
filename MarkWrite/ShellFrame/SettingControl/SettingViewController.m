@@ -14,8 +14,6 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSInteger sectionNum;
 @property (nonatomic, strong) NSArray *sectionTitle;
-@property (nonatomic, assign) BOOL isOpen;
-@property (nonatomic, assign) BOOL isClose;
 @end
 
 @implementation SettingViewController
@@ -27,8 +25,6 @@
 #pragma mark - UI
 - (void)initUserInterface {
     self.title = @"设置";
-    _isOpen = NO;
-    _isClose = YES;
     _sectionNum = 1;
     _sectionTitle = @[@"密码和TouchID"];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -40,7 +36,14 @@
     if (section == 1) {
         return 2;
     }else if (section == 2){
-        return _sectionNum;
+        NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
+        if ([status boolForKey:@"pKeyboredStatus"]) {
+            _sectionNum = 3;
+            _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
+            return _sectionNum;
+        }else {
+            return _sectionNum;
+        }
     }else {
         return 1;
     }
@@ -52,16 +55,17 @@
 //配置cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifer = @"setting";
+    NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
     SettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
     if (!cell) {
-        cell = [[SettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer section:indexPath.section];
+        cell = [[SettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer section:indexPath.section row:indexPath.row];
     }
     cell.delegate = self;
     switch (indexPath.section) {
         case 0: {
             cell.textLabel.text = @"辅助键盘";
             cell.switchButton.hidden = NO;
-            cell.switchButton.on = YES;
+            cell.switchButton.on = [status boolForKey:@"aKeyboredStatus"];
         }
             break;
         case 1: {
@@ -74,10 +78,11 @@
             cell.switchButton.hidden = NO;
             cell.accessoryType = UITableViewCellStyleDefault;
             cell.textLabel.text = _sectionTitle[indexPath.row];
-            if (_sectionTitle.count == 3) {
+            if ([status boolForKey:@"pKeyboredStatus"]) {
                 switch (indexPath.row) {
                     case 0: {
                         cell.switchButton.hidden = NO;
+                        [cell.switchButton setOn:[status boolForKey:@"pKeyboredStatus"]];
                     }
                         break;
                     case 1: {
@@ -87,7 +92,7 @@
                         break;
                     case 2: {
                         cell.switchButton.hidden = NO;
-                        [cell.switchButton setOn:_isOpen];
+                        [cell.switchButton setOn:[status boolForKey:@"tKeyboredStatus"]];
                     }
                         break;
                         
@@ -186,50 +191,50 @@
 }
 #pragma mark - CellSwitchClickDelegate
 - (void)cellSwitchClick:(UISwitch *)sender {
-    
+    NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
     //辅助键盘开关
-    if (sender.tag == 0.0) {
+    if (sender.tag == 0) {
                 if (sender.isOn) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"showSecondaryKeyboard" object:nil];
+                    [status setBool:YES forKey:@"aKeyboredStatus"];
                     NSLog(@"0开启");
                 }else {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideSecondaryKeyboard" object:nil];
+                    [status setBool:NO forKey:@"aKeyboredStatus"];
                     NSLog(@"0关闭");
                 }
             }
     //密码开关
-    else if (sender.tag == 2.0) {
+    else if (sender.tag == 2) {
                 if (sender.isOn) {
+                    [status setBool:YES forKey:@"pKeyboredStatus"];
                     _sectionNum = 3;
                     _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
                     [self.tableView reloadData];
                 }else {
+                    [status setBool:NO forKey:@"pKeyboredStatus"];
                     _sectionNum = 1;
                     _sectionTitle = @[@"密码和TouchID"];
-                    _isOpen = NO;
                     [self closeTouchID];
                     [self.tableView reloadData];
                 }
             }
     //touchID开关
-    else if (sender.tag == 4.0) {
+    else if (sender.tag == 4) {
                 if (sender.isOn) {
                     NSLog(@"开启");
-                    _isClose = NO;
+                    [status setBool:YES forKey:@"tKeyboredStatus"];
                 }else {
                     NSLog(@"关闭");
-                    _isClose = YES;
+                    [status setBool:NO forKey:@"tKeyboredStatus"];
                 }
             }
 }
 
 #pragma mark - Events
 - (void)closeTouchID {
-    if (_isClose) {
-        
-    }else {
+    NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
+    if ([status boolForKey:@"tKeyboredStatus"]) {
         NSLog(@"close TouchID");
-        _isClose = YES;
+        [status setBool:NO forKey:@"tKeyboredStatus"];
     }
 }
 #pragma mark - getter

@@ -49,6 +49,8 @@
     self.navigationItem.backBarButtonItem = backItem;
     
     [self initUserInterface];
+    //单例值
+    [self saveUSerDefaults];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -198,6 +200,13 @@
 - (void)gesturePressed{
     
     [self withdrawSortAction];
+}
+//键盘状态
+- (void)saveUSerDefaults {
+    NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
+    [status setBool:YES forKey:@"aKeyboredStatus"];
+    [status setBool:NO forKey:@"pKeyboredStatus"];
+    [status setBool:NO forKey:@"tKeyboredStatus"];
 }
 
 #pragma mark - Animation Method
