@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PasswordView : UIView
+@interface PasswordView : UIView<UITextFieldDelegate>
 
 - (instancetype)initWithFrame:(CGRect)frame
                  isVerifyOpen:(BOOL)isVerifyOpen

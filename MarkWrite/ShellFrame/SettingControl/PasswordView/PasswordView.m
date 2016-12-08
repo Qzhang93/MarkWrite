@@ -18,7 +18,8 @@
         _inputPassword = [[UITextField alloc] initWithFrame:AAdaptionRect(0, 100, 750, 50)];
         _inputPassword.borderStyle = UITextBorderStyleNone;
         _inputPassword.keyboardType = UIKeyboardTypeNumberPad;
-        _inputPassword.hidden = YES;
+//        _inputPassword.hidden = YES;
+        _inputPassword.delegate = self;
         [self addSubview:self.inputPassword];
         
         
@@ -83,8 +84,6 @@
     
     return self;
 }
-
-
 
 
 @end
