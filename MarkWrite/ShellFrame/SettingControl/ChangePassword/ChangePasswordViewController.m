@@ -7,8 +7,11 @@
 //
 
 #import "ChangePasswordViewController.h"
+#import "PasswordView.h"
 
 @interface ChangePasswordViewController ()
+
+@property(nonatomic, strong) PasswordView *changePassword;
 
 @end
 
@@ -16,23 +19,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.view.backgroundColor = COLOR(yellowColor);
+    
+    self.view.backgroundColor = RGBCOLOR(230, 230, 230, 1.0);
+    
+     self.changePassword = [[PasswordView alloc] initWithFrame:self.view.frame isVerifyOpen:NO isOldPassword:YES isNewPassword:NO isVerifyNew:NO];
+    
+    [self.view addSubview:_changePassword];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [_changePassword.inputPassword becomeFirstResponder];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
