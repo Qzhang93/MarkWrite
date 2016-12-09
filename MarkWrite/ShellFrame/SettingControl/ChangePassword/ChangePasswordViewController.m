@@ -47,25 +47,29 @@
     switch (range.location) {
         case 0:
         {
-            NSLog(@"1");
+            _changePassword.first.hidden = !_changePassword.first.hidden;
+            _changePassword.firstR.hidden = !_changePassword.firstR.hidden;
         }
             break;
             
         case 1:
         {
-            NSLog(@"2");
+            _changePassword.second.hidden = !_changePassword.second.hidden;
+            _changePassword.secondR.hidden = !_changePassword.secondR.hidden;
         }
             break;
             
         case 2:
         {
-            NSLog(@"3");
+            _changePassword.third.hidden = !_changePassword.third.hidden;
+            _changePassword.thirdR.hidden = !_changePassword.thirdR.hidden;
         }
             break;
             
         case 3:
         {
-            NSLog(@"4");
+            _changePassword.fourth.hidden = !_changePassword.fourth.hidden;
+            _changePassword.fourthR.hidden = !_changePassword.fourthR.hidden;
         }
             break;
             

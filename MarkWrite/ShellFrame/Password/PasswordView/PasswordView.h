@@ -17,12 +17,16 @@
                   isVerifyNew:(BOOL)isVerifyNew;
 
 @property(nonatomic, strong) UILabel *first;
+@property(nonatomic, strong) UILabel *firstR;
 
 @property(nonatomic, strong) UILabel *second;
+@property(nonatomic, strong) UILabel *secondR;
 
 @property(nonatomic, strong) UILabel *third;
+@property(nonatomic, strong) UILabel *thirdR;
 
 @property(nonatomic, strong) UILabel *fourth;
+@property(nonatomic, strong) UILabel *fourthR;
 
 @property(nonatomic, strong) UITextField *inputPassword;
 
