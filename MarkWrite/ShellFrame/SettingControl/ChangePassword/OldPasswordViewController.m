@@ -7,11 +7,14 @@
 //
 
 #import "OldPasswordViewController.h"
+#import "SetPasswordViewController.h"
 #import "PasswordView.h"
 
 @interface OldPasswordViewController ()<UITextFieldDelegate>
 
 @property(nonatomic, strong) PasswordView *changePassword;
+
+@property(nonatomic, strong) NSString *password;
 
 @end
 
@@ -74,6 +77,24 @@
         {
             _changePassword.fourth.hidden = !_changePassword.fourth.hidden;
             _changePassword.fourthR.hidden = !_changePassword.fourthR.hidden;
+            
+            if ([_changePassword.inputPassword.text isEqualToString:@"1234"]) {
+                
+                _changePassword.errorOld.hidden = YES;
+                [self.navigationController pushViewController:[SetPasswordViewController new] animated:YES];
+            } else {
+                
+                _changePassword.errorOld.hidden = NO;
+                _changePassword.inputPassword.text = @"";
+                NSArray *array = @[_changePassword.first,_changePassword.second,_changePassword.third,_changePassword.fourth];
+                NSArray *arrayR = @[_changePassword.firstR,_changePassword.secondR,_changePassword.thirdR,_changePassword.fourthR];
+                for (UILabel *label in array) {
+                    label.hidden = NO;
+                }
+                for (UILabel *labelR in arrayR) {
+                    labelR.hidden = YES;
+                }
+            }
         }
             break;
             

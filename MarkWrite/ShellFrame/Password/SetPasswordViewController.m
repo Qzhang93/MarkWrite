@@ -103,6 +103,7 @@
                     _checkView.frame = AAdaptionRect(0, 0, 750, 1334);
                 } completion:^(BOOL finished) {
                     
+                    _setView.errorNew.hidden = YES;
                     _password = _setView.inputPassword.text;
                     _setView.inputPassword.text = @"";
                     NSArray *array = @[_setView.first,_setView.second,_setView.third,_setView.fourth];
@@ -180,6 +181,7 @@
                             }
                             [_checkView.inputPassword resignFirstResponder];
                             [_setView.inputPassword becomeFirstResponder];
+                            _setView.errorNew.hidden = NO;
                         }];
                     }
                 });

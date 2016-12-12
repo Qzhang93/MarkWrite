@@ -159,7 +159,7 @@
             if (_sectionTitle.count == 3) {
                 switch (indexPath.row) {
                     case 1: {
-                        [self.navigationController pushViewController:[SetPasswordViewController new] animated:YES];
+                        [self.navigationController pushViewController:[OldPasswordViewController new] animated:YES];
                     }
                         break;
                         
@@ -178,7 +178,7 @@
             
         case 4: {
            
-            [QWPTools showMessageWithTitle:@"给口狗粮" content:@"MartWrite是一款很实用的App，如果您觉得这款软件还适合您的话请给口狗粮吧，谢谢！" buttonTitles:@[@"取消",@"狗粮6元"] clickedHandle:^(NSInteger index) {
+            [QWPTools showMessageWithTitle:@"请我们喝饮料" content:@"如果你觉得这个应用还不错，请给予我们鼓励，谢谢！" buttonTitles:@[@"取消",@"请喝饮料6元"] clickedHandle:^(NSInteger index) {
                 
             } compeletedHandle:^{
                 
