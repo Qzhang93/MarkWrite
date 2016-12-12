@@ -41,6 +41,7 @@
         [status setBool:YES forKey:@"aKeyboredStatus"];
         [status setBool:NO forKey:@"pKeyboredStatus"];
         [status setBool:NO forKey:@"tKeyboredStatus"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"first" object:nil];
     }else{
         //不是第一次启动了
         

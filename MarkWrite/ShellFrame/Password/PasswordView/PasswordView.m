@@ -14,6 +14,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = COLOR(clearColor);
        
         _inputPassword = [[UITextField alloc] initWithFrame:AAdaptionRect(0, 100, 750, 50)];
         _inputPassword.borderStyle = UITextBorderStyleNone;

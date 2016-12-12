@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0409582E1DF803C900ED03DA /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409582D1DF803C900ED03DA /* ChangePasswordViewController.m */; };
 		042662261DF0054100800478 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 042662251DF0054100800478 /* main.m */; };
 		042662541DF00E8D00800478 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042662511DF00E8D00800478 /* MasterViewController.m */; };
 		042662661DF00FCC00800478 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042662651DF00FCC00800478 /* Assets.xcassets */; };
@@ -20,6 +19,8 @@
 		F30164C11DF7E610007A9B17 /* MarkdownGrammar.plist in Resources */ = {isa = PBXBuildFile; fileRef = F30164C01DF7E610007A9B17 /* MarkdownGrammar.plist */; };
 		F301651A1DFA8CAB007A9B17 /* PasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30165191DFA8CAB007A9B17 /* PasswordView.m */; };
 		F301651D1DFA8CE5007A9B17 /* OpenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F301651C1DFA8CE5007A9B17 /* OpenViewController.m */; };
+		F30165201DFA9144007A9B17 /* OldPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F301651F1DFA9144007A9B17 /* OldPasswordViewController.m */; };
+		F30165291DFA9FBE007A9B17 /* SetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F30165281DFA9FBE007A9B17 /* SetPasswordViewController.m */; };
 		F36A1A891DF0331E00AFBD3A /* UIColor+hex.m in Sources */ = {isa = PBXBuildFile; fileRef = F36A1A881DF0331E00AFBD3A /* UIColor+hex.m */; };
 		F36A1AC31DF150A400AFBD3A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F36A1AC21DF150A400AFBD3A /* Info.plist */; };
 		F382BB921DF255D50057D5DA /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB8D1DF255D50057D5DA /* AboutUsViewController.m */; };
@@ -31,8 +32,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0409582C1DF803C900ED03DA /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
-		0409582D1DF803C900ED03DA /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
 		042662211DF0054100800478 /* MarkWrite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarkWrite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		042662251DF0054100800478 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0426624B1DF00DF800800478 /* Adaption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Adaption.h; sourceTree = "<group>"; };
@@ -56,6 +55,10 @@
 		F30165191DFA8CAB007A9B17 /* PasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordView.m; sourceTree = "<group>"; };
 		F301651B1DFA8CE5007A9B17 /* OpenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenViewController.h; sourceTree = "<group>"; };
 		F301651C1DFA8CE5007A9B17 /* OpenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenViewController.m; sourceTree = "<group>"; };
+		F301651E1DFA9144007A9B17 /* OldPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldPasswordViewController.h; sourceTree = "<group>"; };
+		F301651F1DFA9144007A9B17 /* OldPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldPasswordViewController.m; sourceTree = "<group>"; };
+		F30165271DFA9FBE007A9B17 /* SetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetPasswordViewController.h; sourceTree = "<group>"; };
+		F30165281DFA9FBE007A9B17 /* SetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetPasswordViewController.m; sourceTree = "<group>"; };
 		F36A1A871DF0331E00AFBD3A /* UIColor+hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+hex.h"; sourceTree = "<group>"; };
 		F36A1A881DF0331E00AFBD3A /* UIColor+hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+hex.m"; sourceTree = "<group>"; };
 		F36A1A8A1DF0333400AFBD3A /* CustomConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomConfig.h; sourceTree = "<group>"; };
@@ -87,8 +90,8 @@
 		0409582B1DF803B100ED03DA /* ChangePassword */ = {
 			isa = PBXGroup;
 			children = (
-				0409582C1DF803C900ED03DA /* ChangePasswordViewController.h */,
-				0409582D1DF803C900ED03DA /* ChangePasswordViewController.m */,
+				F301651E1DFA9144007A9B17 /* OldPasswordViewController.h */,
+				F301651F1DFA9144007A9B17 /* OldPasswordViewController.m */,
 			);
 			path = ChangePassword;
 			sourceTree = "<group>";
@@ -213,6 +216,8 @@
 			isa = PBXGroup;
 			children = (
 				F30165171DFA8CAB007A9B17 /* PasswordView */,
+				F30165271DFA9FBE007A9B17 /* SetPasswordViewController.h */,
+				F30165281DFA9FBE007A9B17 /* SetPasswordViewController.m */,
 				F301651B1DFA8CE5007A9B17 /* OpenViewController.h */,
 				F301651C1DFA8CE5007A9B17 /* OpenViewController.m */,
 			);
@@ -327,11 +332,12 @@
 				F301651D1DFA8CE5007A9B17 /* OpenViewController.m in Sources */,
 				0426627D1DF01ACB00800478 /* EditViewController.m in Sources */,
 				042662541DF00E8D00800478 /* MasterViewController.m in Sources */,
+				F30165291DFA9FBE007A9B17 /* SetPasswordViewController.m in Sources */,
 				F382BB9A1DF256780057D5DA /* QWPTools.m in Sources */,
 				F30164BF1DF7E3E4007A9B17 /* SecondaryKeyboardView.m in Sources */,
 				042662801DF01ADE00800478 /* PreviewViewController.m in Sources */,
-				0409582E1DF803C900ED03DA /* ChangePasswordViewController.m in Sources */,
 				042662261DF0054100800478 /* main.m in Sources */,
+				F30165201DFA9144007A9B17 /* OldPasswordViewController.m in Sources */,
 				F301651A1DFA8CAB007A9B17 /* PasswordView.m in Sources */,
 				F382BB971DF256080057D5DA /* LabelSizeToFit.m in Sources */,
 				F382BB921DF255D50057D5DA /* AboutUsViewController.m in Sources */,

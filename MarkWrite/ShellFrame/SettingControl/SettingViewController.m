@@ -8,7 +8,8 @@
 
 #import "SettingViewController.h"
 #import "SettingTableViewCell.h"
-#import "ChangePasswordViewController.h"
+#import "OldPasswordViewController.h"
+#import "SetPasswordViewController.h"
 
 @interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource,CellSwitchClickDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -21,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initUserInterface];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test) name:@"first" object:nil];
 }
 #pragma mark - UI
 - (void)initUserInterface {
@@ -156,8 +159,7 @@
             if (_sectionTitle.count == 3) {
                 switch (indexPath.row) {
                     case 1: {
-                        ChangePasswordViewController *vc = [[ChangePasswordViewController alloc] init];
-                        [self.navigationController pushViewController:vc animated:YES];
+                        [self.navigationController pushViewController:[SetPasswordViewController new] animated:YES];
                     }
                         break;
                         
@@ -249,5 +251,10 @@
         _tableView.backgroundColor = RGBCOLOR(230, 230, 230, 1.0);
     }
     return _tableView;
+}
+
+- (void)test{
+    
+    NSLog(@"!!!");
 }
 @end

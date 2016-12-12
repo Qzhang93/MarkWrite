@@ -1,31 +1,34 @@
 //
-//  ChangePasswordViewController.m
+//  OldPasswordViewController.m
 //  MarkWrite
 //
-//  Created by 彭启伟 on 2016/12/7.
+//  Created by 张琦 on 16/12/9.
 //  Copyright © 2016年 彭启伟. All rights reserved.
 //
 
-#import "ChangePasswordViewController.h"
+#import "OldPasswordViewController.h"
 #import "PasswordView.h"
 
-@interface ChangePasswordViewController ()<UITextFieldDelegate>
+@interface OldPasswordViewController ()<UITextFieldDelegate>
 
 @property(nonatomic, strong) PasswordView *changePassword;
 
 @end
 
-@implementation ChangePasswordViewController
+@implementation OldPasswordViewController
 
 #pragma mark - Lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = RGBCOLOR(230, 230, 230, 1.0);
     
-     self.changePassword = [[PasswordView alloc] initWithFrame:self.view.frame isVerifyOpen:NO isOldPassword:YES isNewPassword:NO isVerifyNew:NO];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction)];
+    self.navigationItem.rightBarButtonItem = cancelItem;
+    
+    self.changePassword = [[PasswordView alloc] initWithFrame:self.view.frame isVerifyOpen:NO isOldPassword:YES isNewPassword:NO isVerifyNew:NO];
     _changePassword.inputPassword.delegate = self;
-    [self test];
     
     [self.view addSubview:_changePassword];
 }
@@ -36,12 +39,13 @@
     [_changePassword.inputPassword becomeFirstResponder];
 }
 
-#pragma mark - <UITextFieldDelegate>
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
+#pragma mark - Button Action
+- (void)cancelAction{
     
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - <UITextFieldDelegate>
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     
     switch (range.location) {
@@ -83,11 +87,5 @@
     }
     return YES;
 }
-
-- (void)test{
-    
-    
-}
-
 
 @end
