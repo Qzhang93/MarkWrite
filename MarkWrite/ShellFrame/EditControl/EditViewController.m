@@ -30,8 +30,11 @@
     
     [self setUserInterface];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSecondaryKeyboard) name:@"hideSecondaryKeyboard" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSecondaryKeyboard) name:@"showSecondaryKeyboard" object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    
+    _secondKeyboard.hidden = ![[NSUserDefaults standardUserDefaults] boolForKey:@"aKeyboredStatus"];
 }
 
 #pragma mark - UserInterface
@@ -53,6 +56,8 @@
     }];
     
     _editView.inputAccessoryView = _secondKeyboard;
+    
+    
 }
 
 #pragma mark - Button Action

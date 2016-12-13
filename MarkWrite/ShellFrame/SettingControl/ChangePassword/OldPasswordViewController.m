@@ -14,8 +14,6 @@
 
 @property(nonatomic, strong) PasswordView *changePassword;
 
-@property(nonatomic, strong) NSString *password;
-
 @end
 
 @implementation OldPasswordViewController
@@ -45,6 +43,7 @@
 #pragma mark - Button Action
 - (void)cancelAction{
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"openPassword" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -78,23 +77,57 @@
             _changePassword.fourth.hidden = !_changePassword.fourth.hidden;
             _changePassword.fourthR.hidden = !_changePassword.fourthR.hidden;
             
-            if ([_changePassword.inputPassword.text isEqualToString:@"1234"]) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
-                _changePassword.errorOld.hidden = YES;
-                [self.navigationController pushViewController:[SetPasswordViewController new] animated:YES];
-            } else {
+                if (_isDelete) {
+                    
+                    if ([_changePassword.inputPassword.text isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]]) {
+                        
+                        //删除密码
+                        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
+                        
+                        //关闭密码开关
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"closePassword" object:nil];
+                        [self.navigationController popViewControllerAnimated:YES];
+                    } else {
+                        
+                        _changePassword.errorOld.hidden = NO;
+                        _changePassword.inputPassword.text = @"";
+                        NSArray *array = @[_changePassword.first,_changePassword.second,_changePassword.third,_changePassword.fourth];
+                        NSArray *arrayR = @[_changePassword.firstR,_changePassword.secondR,_changePassword.thirdR,_changePassword.fourthR];
+                        for (UILabel *label in array) {
+                            label.hidden = NO;
+                        }
+                        for (UILabel *labelR in arrayR) {
+                            labelR.hidden = YES;
+                        }
+                    }
+                    
+                } else {
+                    
+                    if ([_changePassword.inputPassword.text isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]]) {
+                        
+                        _changePassword.errorOld.hidden = YES;
+                        SetPasswordViewController *setPasswordVC = [[SetPasswordViewController alloc] init];
+                        setPasswordVC.isSet = NO;
+                        [self.navigationController pushViewController:setPasswordVC animated:YES];
+                    } else {
+                        
+                        _changePassword.errorOld.hidden = NO;
+                        _changePassword.inputPassword.text = @"";
+                        NSArray *array = @[_changePassword.first,_changePassword.second,_changePassword.third,_changePassword.fourth];
+                        NSArray *arrayR = @[_changePassword.firstR,_changePassword.secondR,_changePassword.thirdR,_changePassword.fourthR];
+                        for (UILabel *label in array) {
+                            label.hidden = NO;
+                        }
+                        for (UILabel *labelR in arrayR) {
+                            labelR.hidden = YES;
+                        }
+                    }
+                }
                 
-                _changePassword.errorOld.hidden = NO;
-                _changePassword.inputPassword.text = @"";
-                NSArray *array = @[_changePassword.first,_changePassword.second,_changePassword.third,_changePassword.fourth];
-                NSArray *arrayR = @[_changePassword.firstR,_changePassword.secondR,_changePassword.thirdR,_changePassword.fourthR];
-                for (UILabel *label in array) {
-                    label.hidden = NO;
-                }
-                for (UILabel *labelR in arrayR) {
-                    labelR.hidden = YES;
-                }
-            }
+            });
+            
         }
             break;
             

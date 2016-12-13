@@ -52,6 +52,10 @@
 #pragma mark - Button Action
 - (void)cancelAction{
     
+    if (_isSet) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"closePassword" object:nil];
+    }
     [_checkView removeFromSuperview];
     [_setView removeFromSuperview];
     
@@ -160,8 +164,24 @@
                     
                     if ([_password isEqualToString:_checkView.inputPassword.text]) {
                         
+                        //保存密码
                         [[NSUserDefaults standardUserDefaults] setObject:_checkView.inputPassword.text forKey:@"password"];
-                        [self cancelAction];
+                        //发送通知开启开关
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"openPassword" object:nil];
+                        
+                        
+                        [_checkView removeFromSuperview];
+                        [_setView removeFromSuperview];
+                        
+                        for (UIViewController *obj in self.navigationController.viewControllers) {
+                            if ([obj isKindOfClass:[SettingViewController class]]) {
+                                
+                                [self.navigationController popToViewController:obj animated:YES];
+                                break;
+                                
+                            }
+                        }
+                        
                     } else {
                         
                         [UIView animateWithDuration:0.3 animations:^{

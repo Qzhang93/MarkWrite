@@ -10,4 +10,6 @@
 
 @interface OldPasswordViewController : UIViewController
 
+@property (nonatomic ,assign) BOOL isDelete;
+
 @end

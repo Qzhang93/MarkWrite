@@ -15,6 +15,9 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSInteger sectionNum;
 @property (nonatomic, strong) NSArray *sectionTitle;
+
+@property (nonatomic, strong) UISwitch *passwordSwitch;
+
 @end
 
 @implementation SettingViewController
@@ -23,8 +26,10 @@
     [super viewDidLoad];
     [self initUserInterface];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test) name:@"first" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openPassword) name:@"openPassword" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closePassword) name:@"closePassword" object:nil];
 }
+
 #pragma mark - UI
 - (void)initUserInterface {
     self.title = @"设置";
@@ -33,6 +38,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tableView];
 }
+
 #pragma mark - UITableViewDataSource
 //行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -124,6 +130,7 @@
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
+
 #pragma mark - UITableViewDelegate
 //表头高度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -191,41 +198,43 @@
     }
     
 }
+
 #pragma mark - CellSwitchClickDelegate
 - (void)cellSwitchClick:(UISwitch *)sender {
     NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
     //辅助键盘开关
     if (sender.tag == 0) {
                 if (sender.isOn) {
+                    
                     [status setBool:YES forKey:@"aKeyboredStatus"];
-                    NSLog(@"0开启");
                 }else {
+                    
                     [status setBool:NO forKey:@"aKeyboredStatus"];
-                    NSLog(@"0关闭");
                 }
             }
     //密码开关
     else if (sender.tag == 2) {
-                if (sender.isOn) {
-                    [status setBool:YES forKey:@"pKeyboredStatus"];
-                    _sectionNum = 3;
-                    _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
-                    [self.tableView reloadData];
-                }else {
-                    [status setBool:NO forKey:@"pKeyboredStatus"];
-                    _sectionNum = 1;
-                    _sectionTitle = @[@"密码和TouchID"];
-                    [self closeTouchID];
-                    [self.tableView reloadData];
-                }
-            }
+        _passwordSwitch = sender;
+        if (sender.isOn) {
+            
+            SetPasswordViewController *setPasswordVC = [[SetPasswordViewController alloc] init];
+            setPasswordVC.isSet = YES;
+            [self.navigationController pushViewController:setPasswordVC animated:YES];
+            
+        }else {
+            
+            OldPasswordViewController *oldPasswordVC = [[OldPasswordViewController alloc] init];
+            oldPasswordVC.isDelete = YES;
+            [self.navigationController pushViewController:oldPasswordVC animated:YES];
+        }
+    }
     //touchID开关
     else if (sender.tag == 4) {
                 if (sender.isOn) {
-                    NSLog(@"开启");
+                    
                     [status setBool:YES forKey:@"tKeyboredStatus"];
                 }else {
-                    NSLog(@"关闭");
+                    
                     [status setBool:NO forKey:@"tKeyboredStatus"];
                 }
             }
@@ -239,6 +248,7 @@
         [status setBool:NO forKey:@"tKeyboredStatus"];
     }
 }
+
 #pragma mark - getter
 - (UITableView *)tableView {
     if (!_tableView) {
@@ -253,8 +263,24 @@
     return _tableView;
 }
 
-- (void)test{
+- (void)openPassword{
     
-    NSLog(@"!!!");
+    [_passwordSwitch setOn:YES];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"pKeyboredStatus"];
+    _sectionNum = 3;
+    _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
+    [self.tableView reloadData];
 }
+
+- (void)closePassword{
+    
+    [_passwordSwitch setOn:NO];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"pKeyboredStatus"];
+    _sectionNum = 1;
+    _sectionTitle = @[@"密码和TouchID"];
+    [self closeTouchID];
+    [self.tableView reloadData];
+}
+
+
 @end

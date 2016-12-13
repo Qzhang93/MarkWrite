@@ -8,8 +8,12 @@
 
 #import "MasterViewController.h"
 #import "MasterTableViewCell.h"
+#import "PasswordView.h"
 
-@interface MasterViewController ()<UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+@interface MasterViewController ()<UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate>
+
+@property (nonatomic, strong) PasswordView *openView;
+
 //主视图
 @property (nonatomic, strong) UITableView *tableView;
 //Y轴偏移量
@@ -47,7 +51,6 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.backBarButtonItem = backItem;
-    
     [self initUserInterface];
 }
 
@@ -57,6 +60,7 @@
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self showNewFileBtn];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -133,6 +137,15 @@
     
     [self.view bringSubviewToFront:_sortView];
     [self.view insertSubview:_blackView belowSubview:_sortView];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"pKeyboredStatus"]) {
+        _openView = [[PasswordView alloc] initWithFrame:self.view.frame isVerifyOpen:YES isOldPassword:NO isNewPassword:NO isVerifyNew:NO];
+        _openView.backgroundColor = RGBCOLOR(230, 230, 230, 1.0);
+        _openView.inputPassword.delegate = self;
+        [_openView.inputPassword becomeFirstResponder];
+        [[[UIApplication sharedApplication] keyWindow] addSubview:_openView];
+    }
+    
 }
 
 
@@ -198,6 +211,11 @@
 - (void)gesturePressed{
     
     [self withdrawSortAction];
+}
+
+- (void)openVerify{
+    
+    [[[UIApplication sharedApplication] keyWindow] addSubview:_openView];
 }
 
 #pragma mark - Animation Method
@@ -281,6 +299,71 @@
     _oldY = _tableView.contentOffset.y;
 }
 
+#pragma mark - <UITextFieldDelegate>
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    switch (range.location) {
+        case 0:
+        {
+            _openView.first.hidden = !_openView.first.hidden;
+            _openView.firstR.hidden = !_openView.firstR.hidden;
+        }
+            break;
+            
+        case 1:
+        {
+            _openView.second.hidden = !_openView.second.hidden;
+            _openView.secondR.hidden = !_openView.secondR.hidden;
+        }
+            break;
+            
+        case 2:
+        {
+            _openView.third.hidden = !_openView.third.hidden;
+            _openView.thirdR.hidden = !_openView.thirdR.hidden;
+        }
+            break;
+            
+        case 3:
+        {
+            _openView.fourth.hidden = !_openView.fourth.hidden;
+            _openView.fourthR.hidden = !_openView.fourthR.hidden;
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                if ([_openView.inputPassword.text isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]]) {
+                    
+                    _openView.errorOld.hidden = YES;
+                    [_openView removeFromSuperview];
+                } else {
+                    
+                    _openView.errorOld.hidden = NO;
+                    _openView.inputPassword.text = @"";
+                    NSArray *array = @[_openView.first,_openView.second,_openView.third,_openView.fourth];
+                    NSArray *arrayR = @[_openView.firstR,_openView.secondR,_openView.thirdR,_openView.fourthR];
+                    for (UILabel *label in array) {
+                        label.hidden = NO;
+                    }
+                    for (UILabel *labelR in arrayR) {
+                        labelR.hidden = YES;
+                    }
+                }
+                
+            });
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (range.location >= 4) {
+        
+        return NO;
+    }
+    return YES;
+}
 
 #pragma mark - getter
 - (UISearchController *)searchController{

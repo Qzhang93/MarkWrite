@@ -10,4 +10,6 @@
 
 @interface SetPasswordViewController : UIViewController
 
+@property (nonatomic, assign) BOOL isSet;
+
 @end
