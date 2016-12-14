@@ -190,16 +190,14 @@
             break;
             
         case 2: {
-            if (_sectionTitle.count == 3) {
-                switch (indexPath.row) {
-                    case 1: {
-                        [self.navigationController pushViewController:[OldPasswordViewController new] animated:YES];
-                    }
-                        break;
-                        
-                    default:
-                        break;
+            switch (indexPath.row) {
+                case 1: {
+                    [self.navigationController pushViewController:[OldPasswordViewController new] animated:YES];
                 }
+                    break;
+                    
+                default:
+                    break;
             }
         }
             break;
