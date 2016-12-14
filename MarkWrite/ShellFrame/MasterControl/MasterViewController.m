@@ -9,6 +9,8 @@
 #import "MasterViewController.h"
 #import "MasterTableViewCell.h"
 #import "PasswordView.h"
+#import "SortView.h"
+#import "addNewView.h"
 
 @interface MasterViewController ()<UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate>
 
@@ -19,14 +21,11 @@
 //Y轴偏移量
 @property (nonatomic, assign) CGFloat oldY;
 
+@property(nonatomic, strong) UIView *blackView;
+
 //排序
 @property (nonatomic, strong) UIBarButtonItem *sortButton;
-
-@property(nonatomic, strong) UIView *blackView;
-@property(nonatomic, strong) UIView *sortView;
-@property(nonatomic, strong) UIButton *sortAsName;
-@property(nonatomic, strong) UIButton *sortAsTime;
-@property(nonatomic, strong) UIImageView *checkView;
+@property(nonatomic, strong) SortView *sortView;
 
 //设置
 @property (nonatomic, strong) UIBarButtonItem *setButton;
@@ -36,8 +35,7 @@
 
 //新建
 @property (nonatomic, strong) UIButton *NewFileButton;
-
-
+@property (nonatomic, strong) addNewView *addNewView;
 
 @end
 
@@ -68,6 +66,11 @@
     [super viewWillDisappear:animated];
     
     [self hideNewFileBtn];
+    [_addNewView.fileName resignFirstResponder];
+    _sortButton.enabled = YES;
+    _blackView.hidden = YES;
+    _sortView.frame = AAdaptionRect(0, -181, 750, 181);
+    _addNewView.frame = AAdaptionRect(0, 1334, 750, 1000);
 }
 
 #pragma mark - UI
@@ -93,32 +96,10 @@
     _sortButton.tag = 100;
     
     //排序选择
-    _sortView = [[UIView alloc] initWithFrame:CGRectMake(0, -AAdaption(181), SCREEN_W, AAdaption(181))];
-    _sortView.backgroundColor = COLOR(lightGrayColor);
+    _sortView = [[SortView alloc] initWithFrame:AAdaptionRect(0, -181, 750, 181)];
     [self.view addSubview:_sortView];
-    
-        //按时间排序
-    _sortAsTime = [UIButton buttonWithType:UIButtonTypeCustom];
-    _sortAsTime.frame = CGRectMake(0, 0, GET_W(_sortView), AAdaption(90));
-    [_sortAsTime setTitle:@"按修改时间排序" forState:UIControlStateNormal];
-    [_sortAsTime setTitleColor:COLOR(blackColor) forState:UIControlStateNormal];
-    [_sortAsTime addTarget:self action:@selector(sortAction:) forControlEvents:UIControlEventTouchUpInside];
-    _sortAsTime.backgroundColor = COLOR(whiteColor);
-    _sortAsTime.tag = 101;
-    [_sortView addSubview:_sortAsTime];
-        //按名称排序
-    _sortAsName = [UIButton buttonWithType:UIButtonTypeCustom];
-    _sortAsName.frame = CGRectMake(0, MAX_Y(_sortAsTime) + AAdaption(1), GET_W(_sortView), GET_H(_sortAsTime));
-    [_sortAsName setTitle:@"按文件名排序" forState:UIControlStateNormal];
-    [_sortAsName setTitleColor:COLOR(blackColor) forState:UIControlStateNormal];
-    [_sortAsName addTarget:self action:@selector(sortAction:) forControlEvents:UIControlEventTouchUpInside];
-    _sortAsName.backgroundColor = COLOR(whiteColor);
-    _sortAsName.tag = 102;
-    [_sortView addSubview:_sortAsName];
-    
-    _checkView = [[UIImageView alloc] initWithImage:IMGNAME(@"check")];
-    _checkView.frame = AAdaptionRect(550, 25, 40, 40);
-    [_sortView addSubview:_checkView];
+    [_sortView.sortAsTime addTarget:self action:@selector(sortAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_sortView.sortAsName addTarget:self action:@selector(sortAction:) forControlEvents:UIControlEventTouchUpInside];
     
     //设置按钮
     _setButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(setAction)];
@@ -135,8 +116,12 @@
     [_NewFileButton addTarget:self action:@selector(addNewFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_NewFileButton];
     
-    [self.view bringSubviewToFront:_sortView];
-    [self.view insertSubview:_blackView belowSubview:_sortView];
+    //新建
+    _addNewView = [[addNewView alloc] initWithFrame:AAdaptionRect(0, 1334, 750, 1000)];
+    [self.view addSubview:_addNewView];
+    [_addNewView.filePath addTarget:self action:@selector(pathOfFile) forControlEvents:UIControlEventValueChanged];
+    [_addNewView.cancel addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
+    [_addNewView.save addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchUpInside];
     
     //验证密码是否开启
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"pKeyboredStatus"]) {
@@ -173,7 +158,10 @@
 //排序
 - (void)sortAction:(UIButton *)sender {
     
+    [self.view bringSubviewToFront:_sortView];
+    [self.view insertSubview:_blackView belowSubview:_sortView];
     switch (sender.tag) {
+        //排序按钮
         case 100:
         {
             [self withdrawSortAction];
@@ -183,7 +171,7 @@
         //按修改时间排序
         case 101:
         {
-            _checkView.frame = AAdaptionRect(550, 25, 40, 40);
+            _sortView.checkView.frame = AAdaptionRect(550, 25, 40, 40);
             [self withdrawSortAction];
             [_tableView reloadData];
         }
@@ -192,7 +180,7 @@
         //按文件名排序
         case 102:
         {
-            _checkView.frame = AAdaptionRect(550, 116, 40, 40);
+            _sortView.checkView.frame = AAdaptionRect(550, 116, 40, 40);
             [self withdrawSortAction];
             [_tableView reloadData];
         }
@@ -206,10 +194,6 @@
 //设置
 - (void)setAction {
     
-    if (_blackView.hidden == NO) {
-        [self withdrawSortAction];
-    }
-    
     SettingViewController *vc = [[SettingViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -220,19 +204,48 @@
     [UIView animateWithDuration:0.3 animations:^{
         
         _NewFileButton.transform = CGAffineTransformIdentity;
-        
-    } completion:^(BOOL finished) {
-        
-        [self.navigationController pushViewController:[EditViewController new] animated:YES];
+        [self.view bringSubviewToFront:_addNewView];
+        [self.view insertSubview:_blackView belowSubview:_addNewView];
+        [self withdrawAddNewAction];
+        [_addNewView.fileName becomeFirstResponder];
     }];
     
 }
 
-- (void)gesturePressed{
+//路径选择
+- (void)pathOfFile{
     
-    [self withdrawSortAction];
+    
 }
 
+//取消新建
+- (void)cancelAction{
+    
+    [self withdrawAddNewAction];
+}
+
+//保存新建
+- (void)saveAction{
+    
+    EditViewController *editVC = [[EditViewController alloc] init];
+    editVC.title = _addNewView.fileName.text;
+    [self.navigationController pushViewController:editVC animated:YES];
+}
+
+//点击屏幕空余部分收回视图
+- (void)gesturePressed{
+    
+    if (_sortView.frame.origin.y == -AAdaption(181)) {
+       [self withdrawAddNewAction];
+    }
+    
+    if (_sortView.frame.origin.y == 0) {
+        [self withdrawSortAction];
+    }
+    
+}
+
+//首页开启密码验证
 - (void)openVerify{
     
     [[[UIApplication sharedApplication] keyWindow] addSubview:_openView];
@@ -243,8 +256,25 @@
     
     _blackView.hidden = !_blackView.hidden;
     [UIView animateWithDuration:0.3 animations:^{
-        _sortView.frame = CGRectMake(0, _sortView.frame.origin.y == 0 ? -AAdaption(181) : 0, SCREEN_W, AAdaption(181));
+        _sortView.frame = AAdaptionRect(0, _sortView.frame.origin.y == 0 ? -181 : 0, 750, 181);
     }];
+}
+
+- (void)withdrawAddNewAction{
+    
+    [_addNewView.fileName resignFirstResponder];
+    _sortButton.enabled = !_sortButton.enabled;
+    _blackView.hidden = !_blackView.hidden;
+    if (_addNewView.frame.origin.y == AAdaption(1334)){
+        [UIView animateWithDuration:0.3 animations:^{
+            _addNewView.frame = AAdaptionRect(0, 230, 750, 1000);
+        }];
+    }else {
+        [UIView animateWithDuration:0.3 animations:^{
+            _addNewView.frame = AAdaptionRect(0, 1334, 750, 1000);
+        }];
+    }
+    _addNewView.fileName.text = @"";
 }
 
 - (void)hideNewFileBtn{
@@ -267,8 +297,8 @@
     
     [UIView animateWithDuration:0.3 animations:^{
         
-        _NewFileButton.transform = CGAffineTransformMakeScale(0.7, 0.7);
-        
+        _NewFileButton.transform = CGAffineTransformMakeScale(0.5, 0.5);
+        _NewFileButton.transform = CGAffineTransformMakeRotation(M_PI_2);
     }];
 }
 
