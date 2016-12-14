@@ -138,12 +138,32 @@
     [self.view bringSubviewToFront:_sortView];
     [self.view insertSubview:_blackView belowSubview:_sortView];
     
+    //验证密码是否开启
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"pKeyboredStatus"]) {
         _openView = [[PasswordView alloc] initWithFrame:self.view.frame isVerifyOpen:YES isOldPassword:NO isNewPassword:NO isVerifyNew:NO];
         _openView.backgroundColor = RGBCOLOR(230, 230, 230, 1.0);
         _openView.inputPassword.delegate = self;
         [_openView.inputPassword becomeFirstResponder];
         [[[UIApplication sharedApplication] keyWindow] addSubview:_openView];
+        
+        //验证touchID是否开启
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"tKeyboredStatus"]) {
+            
+            LAContext *context = [[LAContext alloc] init];
+            NSError *error = nil;
+            //验证机器是否支持指纹识别
+            if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+                //支持指纹识别
+                [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"验证指纹以解锁" reply:^(BOOL success, NSError * _Nullable error) {
+                    if (success) {
+                        //验证成功
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [_openView removeFromSuperview];
+                        });
+                    }
+                }];
+            }
+        }
     }
     
 }

@@ -20,4 +20,6 @@
 #import "AboutUsViewController.h"
 #import "LabelSizeToFit.h"
 
+#import <LocalAuthentication/LocalAuthentication.h>
+
 #endif /* PrefixHeader_pch */

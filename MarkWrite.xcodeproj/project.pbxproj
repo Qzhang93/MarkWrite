@@ -21,6 +21,7 @@
 		F301651D1DFA8CE5007A9B17 /* OpenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F301651C1DFA8CE5007A9B17 /* OpenViewController.m */; };
 		F30165201DFA9144007A9B17 /* OldPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F301651F1DFA9144007A9B17 /* OldPasswordViewController.m */; };
 		F30165291DFA9FBE007A9B17 /* SetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F30165281DFA9FBE007A9B17 /* SetPasswordViewController.m */; };
+		F301658E1E00DC87007A9B17 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F301658D1E00DC87007A9B17 /* LocalAuthentication.framework */; };
 		F36A1A891DF0331E00AFBD3A /* UIColor+hex.m in Sources */ = {isa = PBXBuildFile; fileRef = F36A1A881DF0331E00AFBD3A /* UIColor+hex.m */; };
 		F36A1AC31DF150A400AFBD3A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F36A1AC21DF150A400AFBD3A /* Info.plist */; };
 		F382BB921DF255D50057D5DA /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB8D1DF255D50057D5DA /* AboutUsViewController.m */; };
@@ -59,6 +60,7 @@
 		F301651F1DFA9144007A9B17 /* OldPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldPasswordViewController.m; sourceTree = "<group>"; };
 		F30165271DFA9FBE007A9B17 /* SetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetPasswordViewController.h; sourceTree = "<group>"; };
 		F30165281DFA9FBE007A9B17 /* SetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetPasswordViewController.m; sourceTree = "<group>"; };
+		F301658D1E00DC87007A9B17 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		F36A1A871DF0331E00AFBD3A /* UIColor+hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+hex.h"; sourceTree = "<group>"; };
 		F36A1A881DF0331E00AFBD3A /* UIColor+hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+hex.m"; sourceTree = "<group>"; };
 		F36A1A8A1DF0333400AFBD3A /* CustomConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomConfig.h; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F301658E1E00DC87007A9B17 /* LocalAuthentication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +104,7 @@
 			children = (
 				042662231DF0054100800478 /* MarkWrite */,
 				042662221DF0054100800478 /* Products */,
+				F301658C1E00DC87007A9B17 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -231,6 +235,14 @@
 				F30165191DFA8CAB007A9B17 /* PasswordView.m */,
 			);
 			path = PasswordView;
+			sourceTree = "<group>";
+		};
+		F301658C1E00DC87007A9B17 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F301658D1E00DC87007A9B17 /* LocalAuthentication.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F382BB8A1DF255D50057D5DA /* SettingControl */ = {
@@ -448,6 +460,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = MarkWrite/CustomFiles/PrefixHeader.pch;
 				INFOPLIST_FILE = MarkWrite/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Qzhang.MarkWrite;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -462,6 +475,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = MarkWrite/CustomFiles/PrefixHeader.pch;
 				INFOPLIST_FILE = MarkWrite/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Qzhang.MarkWrite;
 				PRODUCT_NAME = "$(TARGET_NAME)";

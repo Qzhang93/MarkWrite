@@ -47,8 +47,16 @@
     }else if (section == 2){
         NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
         if ([status boolForKey:@"pKeyboredStatus"]) {
-            _sectionNum = 3;
-            _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
+            NSError *error = nil;
+            if ([[[LAContext alloc] init] canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+                
+                _sectionNum = 3;
+                _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
+            } else {
+                
+                _sectionNum = 2;
+                _sectionTitle = @[@"密码",@"修改密码"];
+            }
             return _sectionNum;
         }else {
             return _sectionNum;
@@ -57,10 +65,12 @@
         return 1;
     }
 }
+
 //区数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 5;
 }
+
 //配置cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifer = @"setting";
@@ -71,35 +81,48 @@
     }
     cell.delegate = self;
     switch (indexPath.section) {
+        
+        //辅助键盘
         case 0: {
             cell.textLabel.text = @"辅助键盘";
             cell.switchButton.hidden = NO;
             cell.switchButton.on = [status boolForKey:@"aKeyboredStatus"];
         }
             break;
+            
+        //好评鼓励，意见反馈
         case 1: {
             NSArray *arr = @[@"好评鼓励",@"意见反馈"];
             cell.textLabel.text = arr[indexPath.row];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
             break;
+            
+        //密码
         case 2: {
             cell.switchButton.hidden = NO;
             cell.accessoryType = UITableViewCellStyleDefault;
             cell.textLabel.text = _sectionTitle[indexPath.row];
             if ([status boolForKey:@"pKeyboredStatus"]) {
+                
                 switch (indexPath.row) {
+                    //密码开关
                     case 0: {
                         cell.switchButton.hidden = NO;
                         [cell.switchButton setOn:[status boolForKey:@"pKeyboredStatus"]];
                     }
                         break;
+                        
+                    //修改密码
                     case 1: {
                         cell.switchButton.hidden = YES;
                         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     }
                         break;
-                    case 2: {
+                        
+                    //touchID开关
+                    case 2:
+                    {
                         cell.switchButton.hidden = NO;
                         [cell.switchButton setOn:[status boolForKey:@"tKeyboredStatus"]];
                     }
@@ -111,11 +134,15 @@
             }
         }
             break;
+            
+        //关于
         case 3: {
             cell.textLabel.text = @"关于";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
             break;
+            
+        //打赏
         case 4: {
             cell.textLabel.text = @"打赏";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -267,8 +294,16 @@
     
     [_passwordSwitch setOn:YES];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"pKeyboredStatus"];
-    _sectionNum = 3;
-    _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
+    NSError *error = nil;
+    if ([[[LAContext alloc] init] canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+        
+        _sectionNum = 3;
+        _sectionTitle = @[@"密码",@"修改密码",@"TouchID"];
+    } else {
+        
+        _sectionNum = 2;
+        _sectionTitle = @[@"密码",@"修改密码"];
+    }
     [self.tableView reloadData];
 }
 
