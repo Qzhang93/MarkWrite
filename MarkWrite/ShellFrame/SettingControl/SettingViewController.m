@@ -174,12 +174,18 @@
     switch (indexPath.section) {
         case 1: {
             switch (indexPath.row) {
+                    
+                //好评鼓励
                 case 0: {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/shan-shan-pen-di-fu-nu-jian/id1049660516?mt=8"]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/shan-shan-pen-di-fu-nu-jian/id1049660516?mt=8"] options:@{} completionHandler:nil];
                 }
                     break;
+                    
+                //意见反馈
                 case 1: {
                     
+                    NSString *url = @"mailto:390242198@qq.com?subject=MarkWrite意见反馈&body=";
+                    [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url] options:@{} completionHandler:nil];
                 }
                     break;
                     
