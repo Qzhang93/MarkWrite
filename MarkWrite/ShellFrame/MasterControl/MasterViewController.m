@@ -71,6 +71,7 @@
     _blackView.hidden = YES;
     _sortView.frame = AAdaptionRect(0, -181, 750, 181);
     _addNewView.frame = AAdaptionRect(0, 1334, 750, 1000);
+    _addNewView.fileName.text = @"";
 }
 
 #pragma mark - UI
@@ -228,7 +229,7 @@
 - (void)saveAction{
     
     EditViewController *editVC = [[EditViewController alloc] init];
-    editVC.title = _addNewView.fileName.text;
+    editVC.fileTitle = _addNewView.fileName.text;
     [self.navigationController pushViewController:editVC animated:YES];
 }
 
@@ -274,7 +275,6 @@
             _addNewView.frame = AAdaptionRect(0, 1334, 750, 1000);
         }];
     }
-    _addNewView.fileName.text = @"";
 }
 
 - (void)hideNewFileBtn{

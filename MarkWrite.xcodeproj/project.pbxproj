@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040607681E022533000699E7 /* MMMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0406075F1E022522000699E7 /* MMMarkdown.framework */; };
 		042662261DF0054100800478 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 042662251DF0054100800478 /* main.m */; };
 		042662541DF00E8D00800478 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042662511DF00E8D00800478 /* MasterViewController.m */; };
 		042662661DF00FCC00800478 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042662651DF00FCC00800478 /* Assets.xcassets */; };
@@ -33,7 +34,46 @@
 		F382BB9C1DF256A50057D5DA /* MarkWrite.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F382BB9B1DF256A50057D5DA /* MarkWrite.rtf */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0406075E1E022522000699E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 040607561E022522000699E7 /* MMMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BED7620F1B37810000687B36;
+			remoteInfo = "MMMarkdown (iOS)";
+		};
+		040607601E022522000699E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 040607561E022522000699E7 /* MMMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BED761571B374D6700687B36;
+			remoteInfo = "MMMarkdown (OS X)";
+		};
+		040607621E022522000699E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 040607561E022522000699E7 /* MMMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE23E8F41C0CF3EF0087F587;
+			remoteInfo = "MMMarkdown (tvOS)";
+		};
+		040607641E022522000699E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 040607561E022522000699E7 /* MMMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE23E9131C0CF77D0087F587;
+			remoteInfo = "MMMarkdown (watchOS)";
+		};
+		040607661E022522000699E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 040607561E022522000699E7 /* MMMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BED761611B374D6700687B36;
+			remoteInfo = MMMarkdownTests;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		040607561E022522000699E7 /* MMMarkdown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MMMarkdown.xcodeproj; path = "MMMarkdown-master/MMMarkdown.xcodeproj"; sourceTree = "<group>"; };
 		042662211DF0054100800478 /* MarkWrite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarkWrite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		042662251DF0054100800478 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0426624B1DF00DF800800478 /* Adaption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Adaption.h; sourceTree = "<group>"; };
@@ -86,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040607681E022533000699E7 /* MMMarkdown.framework in Frameworks */,
 				F301658E1E00DC87007A9B17 /* LocalAuthentication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +134,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040607571E022522000699E7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0406075F1E022522000699E7 /* MMMarkdown.framework */,
+				040607611E022522000699E7 /* MMMarkdown.framework */,
+				040607631E022522000699E7 /* MMMarkdown.framework */,
+				040607651E022522000699E7 /* MMMarkdown.framework */,
+				040607671E022522000699E7 /* MMMarkdownTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		0409582B1DF803B100ED03DA /* ChangePassword */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +158,7 @@
 		042662181DF0054100800478 = {
 			isa = PBXGroup;
 			children = (
+				040607561E022522000699E7 /* MMMarkdown.xcodeproj */,
 				042662231DF0054100800478 /* MarkWrite */,
 				042662221DF0054100800478 /* Products */,
 				F301658C1E00DC87007A9B17 /* Frameworks */,
@@ -319,12 +373,56 @@
 			mainGroup = 042662181DF0054100800478;
 			productRefGroup = 042662221DF0054100800478 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 040607571E022522000699E7 /* Products */;
+					ProjectRef = 040607561E022522000699E7 /* MMMarkdown.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				042662201DF0054100800478 /* MarkWrite */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0406075F1E022522000699E7 /* MMMarkdown.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MMMarkdown.framework;
+			remoteRef = 0406075E1E022522000699E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		040607611E022522000699E7 /* MMMarkdown.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MMMarkdown.framework;
+			remoteRef = 040607601E022522000699E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		040607631E022522000699E7 /* MMMarkdown.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MMMarkdown.framework;
+			remoteRef = 040607621E022522000699E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		040607651E022522000699E7 /* MMMarkdown.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MMMarkdown.framework;
+			remoteRef = 040607641E022522000699E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		040607671E022522000699E7 /* MMMarkdownTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MMMarkdownTests.xctest;
+			remoteRef = 040607661E022522000699E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0426621F1DF0054100800478 /* Resources */ = {
