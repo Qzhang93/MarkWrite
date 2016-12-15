@@ -28,10 +28,12 @@
 		F36A1AC31DF150A400AFBD3A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F36A1AC21DF150A400AFBD3A /* Info.plist */; };
 		F382BB921DF255D50057D5DA /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB8D1DF255D50057D5DA /* AboutUsViewController.m */; };
 		F382BB931DF255D50057D5DA /* SettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB8F1DF255D50057D5DA /* SettingTableViewCell.m */; };
-		F382BB941DF255D50057D5DA /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB911DF255D50057D5DA /* SettingViewController.m */; };
 		F382BB971DF256080057D5DA /* LabelSizeToFit.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB961DF256080057D5DA /* LabelSizeToFit.m */; };
 		F382BB9A1DF256780057D5DA /* QWPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB991DF256780057D5DA /* QWPTools.m */; };
 		F382BB9C1DF256A50057D5DA /* MarkWrite.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F382BB9B1DF256A50057D5DA /* MarkWrite.rtf */; };
+		F3A139871E0233D40044AAF3 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A139861E0233D40044AAF3 /* SettingViewController.m */; };
+		F3A139881E0272110044AAF3 /* MMMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0406075F1E022522000699E7 /* MMMarkdown.framework */; };
+		F3A139891E0272110044AAF3 /* MMMarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0406075F1E022522000699E7 /* MMMarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +72,28 @@
 			remoteGlobalIDString = BED761611B374D6700687B36;
 			remoteInfo = MMMarkdownTests;
 		};
+		F3A1398A1E0272110044AAF3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 040607561E022522000699E7 /* MMMarkdown.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BED7620E1B37810000687B36;
+			remoteInfo = "MMMarkdown (iOS)";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F3A1398C1E0272110044AAF3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F3A139891E0272110044AAF3 /* MMMarkdown.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		040607561E022522000699E7 /* MMMarkdown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MMMarkdown.xcodeproj; path = "MMMarkdown-master/MMMarkdown.xcodeproj"; sourceTree = "<group>"; };
@@ -113,12 +136,12 @@
 		F382BB8E1DF255D50057D5DA /* SettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTableViewCell.h; sourceTree = "<group>"; };
 		F382BB8F1DF255D50057D5DA /* SettingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewCell.m; sourceTree = "<group>"; };
 		F382BB901DF255D50057D5DA /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
-		F382BB911DF255D50057D5DA /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		F382BB951DF256080057D5DA /* LabelSizeToFit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelSizeToFit.h; sourceTree = "<group>"; };
 		F382BB961DF256080057D5DA /* LabelSizeToFit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LabelSizeToFit.m; sourceTree = "<group>"; };
 		F382BB981DF256780057D5DA /* QWPTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QWPTools.h; sourceTree = "<group>"; };
 		F382BB991DF256780057D5DA /* QWPTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QWPTools.m; sourceTree = "<group>"; };
 		F382BB9B1DF256A50057D5DA /* MarkWrite.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = MarkWrite.rtf; sourceTree = "<group>"; };
+		F3A139861E0233D40044AAF3 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				040607681E022533000699E7 /* MMMarkdown.framework in Frameworks */,
+				F3A139881E0272110044AAF3 /* MMMarkdown.framework in Frameworks */,
 				F301658E1E00DC87007A9B17 /* LocalAuthentication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,7 +336,7 @@
 				F382BB8E1DF255D50057D5DA /* SettingTableViewCell.h */,
 				F382BB8F1DF255D50057D5DA /* SettingTableViewCell.m */,
 				F382BB901DF255D50057D5DA /* SettingViewController.h */,
-				F382BB911DF255D50057D5DA /* SettingViewController.m */,
+				F3A139861E0233D40044AAF3 /* SettingViewController.m */,
 			);
 			path = SettingControl;
 			sourceTree = "<group>";
@@ -336,10 +360,12 @@
 				0426621D1DF0054100800478 /* Sources */,
 				0426621E1DF0054100800478 /* Frameworks */,
 				0426621F1DF0054100800478 /* Resources */,
+				F3A1398C1E0272110044AAF3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F3A1398B1E0272110044AAF3 /* PBXTargetDependency */,
 			);
 			name = MarkWrite;
 			productName = MarkWrite;
@@ -449,6 +475,7 @@
 				F30165291DFA9FBE007A9B17 /* SetPasswordViewController.m in Sources */,
 				F382BB9A1DF256780057D5DA /* QWPTools.m in Sources */,
 				F30164BF1DF7E3E4007A9B17 /* SecondaryKeyboardView.m in Sources */,
+				F3A139871E0233D40044AAF3 /* SettingViewController.m in Sources */,
 				042662801DF01ADE00800478 /* PreviewViewController.m in Sources */,
 				042662261DF0054100800478 /* main.m in Sources */,
 				F30165201DFA9144007A9B17 /* OldPasswordViewController.m in Sources */,
@@ -461,11 +488,18 @@
 				042662761DF0140200800478 /* AppDelegate.m in Sources */,
 				F382BB931DF255D50057D5DA /* SettingTableViewCell.m in Sources */,
 				F30165911E011F29007A9B17 /* SortView.m in Sources */,
-				F382BB941DF255D50057D5DA /* SettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F3A1398B1E0272110044AAF3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "MMMarkdown (iOS)";
+			targetProxy = F3A1398A1E0272110044AAF3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		042662361DF0054100800478 /* Debug */ = {

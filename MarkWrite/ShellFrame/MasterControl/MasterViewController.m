@@ -120,6 +120,7 @@
     //新建
     _addNewView = [[addNewView alloc] initWithFrame:AAdaptionRect(0, 1334, 750, 1000)];
     [self.view addSubview:_addNewView];
+    _addNewView.fileName.delegate = self;
     [_addNewView.filePath addTarget:self action:@selector(pathOfFile) forControlEvents:UIControlEventValueChanged];
     [_addNewView.cancel addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
     [_addNewView.save addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchUpInside];
@@ -228,9 +229,15 @@
 //保存新建
 - (void)saveAction{
     
-    EditViewController *editVC = [[EditViewController alloc] init];
-    editVC.fileTitle = _addNewView.fileName.text;
-    [self.navigationController pushViewController:editVC animated:YES];
+    if (_addNewView.fileName.text.length == 0) {
+        
+        _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
+        _addNewView.fileName.placeholder = @"文件名不能为空";
+    } else {
+        EditViewController *editVC = [[EditViewController alloc] init];
+        editVC.fileTitle = _addNewView.fileName.text;
+        [self.navigationController pushViewController:editVC animated:YES];
+    }
 }
 
 //点击屏幕空余部分收回视图
@@ -264,6 +271,8 @@
 - (void)withdrawAddNewAction{
     
     [_addNewView.fileName resignFirstResponder];
+    _addNewView.fileName.layer.borderColor = [UIColor colorWithRed:0.902 green:0.898 blue:0.902 alpha:1].CGColor;
+    _addNewView.fileName.placeholder = @"";
     _sortButton.enabled = !_sortButton.enabled;
     _blackView.hidden = !_blackView.hidden;
     if (_addNewView.frame.origin.y == AAdaption(1334)){
@@ -352,67 +361,86 @@
 #pragma mark - <UITextFieldDelegate>
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     
-    switch (range.location) {
-        case 0:
-        {
-            _openView.first.hidden = !_openView.first.hidden;
-            _openView.firstR.hidden = !_openView.firstR.hidden;
-        }
-            break;
-            
-        case 1:
-        {
-            _openView.second.hidden = !_openView.second.hidden;
-            _openView.secondR.hidden = !_openView.secondR.hidden;
-        }
-            break;
-            
-        case 2:
-        {
-            _openView.third.hidden = !_openView.third.hidden;
-            _openView.thirdR.hidden = !_openView.thirdR.hidden;
-        }
-            break;
-            
-        case 3:
-        {
-            _openView.fourth.hidden = !_openView.fourth.hidden;
-            _openView.fourthR.hidden = !_openView.fourthR.hidden;
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    if (textField == _openView.inputPassword) {
+        
+        switch (range.location) {
+            case 0:
+            {
+                _openView.first.hidden = !_openView.first.hidden;
+                _openView.firstR.hidden = !_openView.firstR.hidden;
+            }
+                break;
                 
-                if ([_openView.inputPassword.text isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]]) {
-                    
-                    _openView.errorOld.hidden = YES;
-                    [_openView removeFromSuperview];
-                } else {
-                    
-                    _openView.errorOld.hidden = NO;
-                    _openView.inputPassword.text = @"";
-                    NSArray *array = @[_openView.first,_openView.second,_openView.third,_openView.fourth];
-                    NSArray *arrayR = @[_openView.firstR,_openView.secondR,_openView.thirdR,_openView.fourthR];
-                    for (UILabel *label in array) {
-                        label.hidden = NO;
-                    }
-                    for (UILabel *labelR in arrayR) {
-                        labelR.hidden = YES;
-                    }
-                }
+            case 1:
+            {
+                _openView.second.hidden = !_openView.second.hidden;
+                _openView.secondR.hidden = !_openView.secondR.hidden;
+            }
+                break;
                 
-            });
-            
+            case 2:
+            {
+                _openView.third.hidden = !_openView.third.hidden;
+                _openView.thirdR.hidden = !_openView.thirdR.hidden;
+            }
+                break;
+                
+            case 3:
+            {
+                _openView.fourth.hidden = !_openView.fourth.hidden;
+                _openView.fourthR.hidden = !_openView.fourthR.hidden;
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    if ([_openView.inputPassword.text isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]]) {
+                        
+                        _openView.errorOld.hidden = YES;
+                        [_openView removeFromSuperview];
+                    } else {
+                        
+                        _openView.errorOld.hidden = NO;
+                        _openView.inputPassword.text = @"";
+                        NSArray *array = @[_openView.first,_openView.second,_openView.third,_openView.fourth];
+                        NSArray *arrayR = @[_openView.firstR,_openView.secondR,_openView.thirdR,_openView.fourthR];
+                        for (UILabel *label in array) {
+                            label.hidden = NO;
+                        }
+                        for (UILabel *labelR in arrayR) {
+                            labelR.hidden = YES;
+                        }
+                    }
+                    
+                });
+                
+            }
+                break;
+                
+            default:
+                break;
         }
-            break;
+        
+        if (range.location >= 4) {
             
-        default:
-            break;
+            return NO;
+        }
+        return YES;
     }
     
-    if (range.location >= 4) {
+    else {
         
-        return NO;
+        if (range.location == 0) {
+            _addNewView.fileName.layer.borderColor = [UIColor colorWithRed:0.902 green:0.898 blue:0.902 alpha:1].CGColor;
+            _addNewView.fileName.placeholder = @"";
+        }
+        
+        return YES;
     }
-    return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+//    _addNewView.fileName.layer.borderColor = [UIColor colorWithRed:0.902 green:0.898 blue:0.902 alpha:1].CGColor;
+//    _addNewView.fileName.placeholder = @"";
 }
 
 #pragma mark - getter

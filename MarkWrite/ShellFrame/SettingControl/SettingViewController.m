@@ -6,12 +6,13 @@
 //  Copyright © 2016年 彭启伟. All rights reserved.
 //
 
+#import <MessageUI/MessageUI.h>
 #import "SettingViewController.h"
 #import "SettingTableViewCell.h"
 #import "OldPasswordViewController.h"
 #import "SetPasswordViewController.h"
 
-@interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource,CellSwitchClickDelegate>
+@interface SettingViewController ()<UITableViewDelegate, UITableViewDataSource, CellSwitchClickDelegate, MFMailComposeViewControllerDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSInteger sectionNum;
 @property (nonatomic, strong) NSArray *sectionTitle;
@@ -184,8 +185,18 @@
                 //意见反馈
                 case 1: {
                     
-                    NSString *url = @"mailto:390242198@qq.com?subject=MarkWrite意见反馈&body=";
-                    [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url] options:@{} completionHandler:nil];
+                    if ([MFMailComposeViewController canSendMail]) {
+                        
+                        MFMailComposeViewController *mailVC = [[MFMailComposeViewController alloc] init];
+                        mailVC.mailComposeDelegate = self;
+                        
+                        [mailVC setToRecipients:[NSArray arrayWithObject:@"390242198@qq.com"]];
+                        [mailVC setSubject:@"MarkWrite 意见反馈"];
+                        
+                        [self presentViewController:mailVC animated:YES completion:nil];
+                        
+                    }
+             
                 }
                     break;
                     
@@ -269,6 +280,12 @@
                     [status setBool:NO forKey:@"tKeyboredStatus"];
                 }
             }
+}
+
+#pragma mark - <MFMailComposeViewControllerDelegate>
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Events
