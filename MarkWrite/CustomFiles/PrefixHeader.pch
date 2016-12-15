@@ -22,4 +22,6 @@
 
 #import <LocalAuthentication/LocalAuthentication.h>
 
+#import <MMMarkdown/MMMarkdown.h>
+
 #endif /* PrefixHeader_pch */

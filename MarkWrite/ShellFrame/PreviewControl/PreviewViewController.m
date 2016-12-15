@@ -10,6 +10,8 @@
 
 @interface PreviewViewController ()
 
+@property (nonatomic, strong) UIWebView *webView;
+
 @end
 
 @implementation PreviewViewController
@@ -19,6 +21,7 @@
     [super viewDidLoad];
     
     [self setUserInterface];
+    [self loadData];
 }
 
 #pragma mark - UserInterface
@@ -28,6 +31,28 @@
     
     UIBarButtonItem *save = [[UIBarButtonItem alloc] initWithImage:IMGNAME(@"share") style:UIBarButtonItemStyleDone target:self action:@selector(saveAction)];
     self.navigationItem.rightBarButtonItem = save;
+    
+    _webView = [[UIWebView alloc] initWithFrame:AAdaptionRect(0, 0, 750, 1206)];
+    _webView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_webView];
+}
+//加载数据
+- (void)loadData {
+    NSURL * fileUrl = [NSURL fileURLWithPath:_filePath];
+    NSString * markdownStr = [NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil];
+    //    NSString * htmlString = [MMMarkdown HTMLStringWithMarkdown:markdownStr error:nil];
+    NSString *htmlString = [MMMarkdown HTMLStringWithMarkdown:markdownStr extensions:MMMarkdownExtensionsGitHubFlavored error:nil];
+    NSRange range = [htmlString rangeOfString:@"<img"];
+    NSRange rang = [htmlString rangeOfString:@"alt="""];
+    if (range.location != NSNotFound && rang.location != NSNotFound) {
+        NSString *string = [NSString stringWithFormat:@"width = \"%f\"",AAdaption(600)];
+        NSMutableString *muString = [[NSMutableString alloc] initWithString:htmlString];
+        [muString insertString:string atIndex:rang.location + 7];
+        NSLog(@"muString = %@",muString);
+        [_webView loadHTMLString:muString baseURL:nil];
+    } else {
+        [_webView loadHTMLString:htmlString baseURL:nil];
+    }
 }
 
 #pragma mark - Button Action

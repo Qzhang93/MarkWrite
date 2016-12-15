@@ -50,7 +50,7 @@
     _introduce.textColor = _version.textColor;
     _introduce.font = AAFont(24);
     _introduce.numberOfLines = 0;
-    _introduce.text = @"        MarkWrite是一款iOS平台上的Markdown文本编辑工具，界面简洁干净，支持iCloud同步，支持标准的Markdown语法。这款App的主要功能及用途就是为用户提供一个简单快捷的方式来将自己所想表述的文字或者图片记录下来，方便用户分享，同时多种导出格式也让用户有更多的选择。我们本着一颗开发出最优秀的软件的心，为您提供最优质的服务，给您带来不一样的用户体验。";
+    _introduce.text = @"       MarkWrite是一款iOS平台上的Markdown文本编辑工具，界面简洁干净，支持iCloud同步，支持标准的Markdown语法。这款App的主要功能及用途就是为用户提供一个简单快捷的方式来将自己所想表述的文字或者图片记录下来，方便用户分享，同时多种导出格式也让用户有更多的选择。我们本着一颗开发出最优秀的软件的心，为您提供最优质的服务，给您带来不一样的用户体验。";
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_introduce.text];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     
@@ -59,7 +59,7 @@
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [_introduce.text length])];
     _introduce.attributedText = attributedString;
     CGSize expectSize = [LabelSizeToFit getWidthWithLabel:_introduce maxSize:AAdaptionSize(670, 9999)];
-    _introduce.frame = AAdaptionRect(40, 400, 670, expectSize.height * 2);
+    _introduce.frame = AAdaptionRect(40, 400, 670, expectSize.height * 2 + 60);
     [self.view addSubview:_introduce];
     //联系方式
     _contact = [[UILabel alloc] init];
@@ -68,7 +68,7 @@
     _contact.font = AAFont(24);
     _contact.text = @"联系方式";
     CGSize contactSize = [LabelSizeToFit getWidthWithLabel:_contact maxSize:AAdaptionSize(200, 30)];
-    _contact.frame = AAdaptionRect(40, 700, contactSize.width * 2, 30);
+    _contact.frame = AAdaptionRect(40, 700, contactSize.width * 3, 30);
     [self.view addSubview:_contact];
     //邮箱、电话
     NSArray *email = @[@"390242198@qq.com",@"295649322@qq.com"];
