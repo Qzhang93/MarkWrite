@@ -234,8 +234,12 @@
         _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
         _addNewView.fileName.placeholder = @"文件名不能为空";
     } else {
+        NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        NSLog(@"path = %@",path);
+        NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_addNewView.fileName.text]];
         EditViewController *editVC = [[EditViewController alloc] init];
         editVC.fileTitle = _addNewView.fileName.text;
+        editVC.filePath = filePath;
         [self.navigationController pushViewController:editVC animated:YES];
     }
 }

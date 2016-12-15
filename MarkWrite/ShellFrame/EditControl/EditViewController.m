@@ -35,6 +35,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     
     _secondKeyboard.hidden = ![[NSUserDefaults standardUserDefaults] boolForKey:@"aKeyboredStatus"];
+    [self saveFile];
 }
 
 #pragma mark - UserInterface
@@ -48,6 +49,7 @@
     //主视图
     _editView = [[UITextView alloc] initWithFrame:self.view.frame];
     _editView.delegate = self;
+    _editView.font = [UIFont systemFontOfSize:30];
     [self.view addSubview:_editView];
     
     //辅助键盘
@@ -63,13 +65,14 @@
 #pragma mark - UITextViewDelegate
 //textView中文本改变时保存文件
 - (void)textViewDidChange:(UITextView *)textView {
-    
+    [self saveFile];
 }
 #pragma mark - Button Action
 - (void)previewAction{
     
     PreviewViewController *previewVC = [[PreviewViewController alloc] init];
     previewVC.fileTitle = _fileTitle;
+    previewVC.filePath = _filePath;
     [self.navigationController pushViewController:previewVC animated:YES];
 }
 
@@ -162,6 +165,12 @@
     
     _secondKeyboard.hidden = NO;
 }
-
+//保存文本
+- (void)saveFile {
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSString *fileString = _editView.text;
+    NSData *fileData = [fileString dataUsingEncoding:NSUTF8StringEncoding];
+    [fileManager createFileAtPath:_filePath contents:fileData attributes:nil];
+}
 
 @end
