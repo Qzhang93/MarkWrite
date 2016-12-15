@@ -9,7 +9,7 @@
 #import "EditViewController.h"
 #import "SecondaryKeyboardView.h"
 
-@interface EditViewController ()
+@interface EditViewController ()<UITextViewDelegate>
 
 @property (nonatomic, strong) UITextView *editView;
 
@@ -47,6 +47,7 @@
     
     //主视图
     _editView = [[UITextView alloc] initWithFrame:self.view.frame];
+    _editView.delegate = self;
     [self.view addSubview:_editView];
     
     //辅助键盘
@@ -59,7 +60,11 @@
     
     
 }
-
+#pragma mark - UITextViewDelegate
+//textView中文本改变时保存文件
+- (void)textViewDidChange:(UITextView *)textView {
+    
+}
 #pragma mark - Button Action
 - (void)previewAction{
     
