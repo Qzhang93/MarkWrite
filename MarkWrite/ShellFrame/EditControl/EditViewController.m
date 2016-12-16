@@ -84,70 +84,70 @@
         //tab
         case 0:
         {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
         }
             break;
             
         //#
         case 1:
         {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
         }
             break;
           
         //link
         case 2:
         {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
         }
             break;
           
         //Img
         case 3:
         {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
         }
             break;
             
         //Space
         case 4:
         {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
         }
             break;
             
         //*
         case 5:
         {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
         }
             break;
         
         //>
         case 6:
         {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
         }
             break;
             
         //-
         case 7:
         {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
         }
             break;
             
         //~~
         case 8:
         {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
         }
             break;
             
         //[ ]
         case 9:
         {
-            NSLog(@"%ld",index);
+            NSLog(@"%ld",(long)index);
         }
             break;
             
