@@ -195,6 +195,8 @@
                         
                         [self presentViewController:mailVC animated:YES completion:nil];
                         
+                    }else {
+                        [QWPTools showMessageWithTitle:@"提示" content:@"请设置邮件账户" disMissTime:1.0f];
                     }
              
                 }

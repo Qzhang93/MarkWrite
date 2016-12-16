@@ -388,7 +388,7 @@
 				TargetAttributes = {
 					042662201DF0054100800478 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = YQ5T553TDX;
+						DevelopmentTeam = TTHS74G44H;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -600,13 +600,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = YQ5T553TDX;
+				DEVELOPMENT_TEAM = TTHS74G44H;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = MarkWrite/CustomFiles/PrefixHeader.pch;
 				INFOPLIST_FILE = MarkWrite/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Qzhang.MarkWrite3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pengqiwei.MarkWrite3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -615,13 +615,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = YQ5T553TDX;
+				DEVELOPMENT_TEAM = TTHS74G44H;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = MarkWrite/CustomFiles/PrefixHeader.pch;
 				INFOPLIST_FILE = MarkWrite/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Qzhang.MarkWrite3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pengqiwei.MarkWrite3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

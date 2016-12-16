@@ -35,7 +35,16 @@
 - (void)viewWillAppear:(BOOL)animated{
     
     _secondKeyboard.hidden = ![[NSUserDefaults standardUserDefaults] boolForKey:@"aKeyboredStatus"];
-    [self saveFile];
+    if ([_openFile isEqualToString:@"openFile"]) {
+        
+    }else {
+        [self saveFile];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [_editView resignFirstResponder];
 }
 
 #pragma mark - UserInterface
@@ -49,7 +58,15 @@
     //主视图
     _editView = [[UITextView alloc] initWithFrame:self.view.frame];
     _editView.delegate = self;
-    _editView.font = [UIFont systemFontOfSize:30];
+    _editView.font = AAFont(32);
+    if ([_openFile isEqualToString:@"openFile"]) {
+        NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_fileTitle]];
+        NSString *text = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+        NSLog(@"text = %@",text);
+        _editView.text = text;
+        _filePath = filePath;
+    }
     [self.view addSubview:_editView];
     
     //辅助键盘

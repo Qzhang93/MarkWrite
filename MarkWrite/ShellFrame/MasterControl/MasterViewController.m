@@ -17,6 +17,10 @@
 @property (nonatomic, strong) PasswordView *openView;
 
 @property(nonatomic, strong) NSMutableArray *dataSource;
+//存放文件修改时间数组
+@property (nonatomic, strong) NSMutableArray *timeArray;
+//存放文件大小数组
+@property (nonatomic, strong) NSMutableArray *sizeArray;
 
 //主视图
 @property (nonatomic, strong) UITableView *tableView;
@@ -52,6 +56,7 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.backBarButtonItem = backItem;
     [self initUserInterface];
+    [self loadDataSource];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -60,7 +65,8 @@
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self showNewFileBtn];
-    
+    [self loadDataSource];
+    [_tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -83,6 +89,8 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.rowHeight = AAdaption(140);
+    _tableView.tableFooterView = [UIView new];
+    _tableView.backgroundColor = RGBCOLOR(220, 220, 224, 1.0);
     [self.view addSubview:_tableView];
     
     _blackView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -159,6 +167,63 @@
 
 
 #pragma mark - Events
+//初始化数据源
+- (void)loadDataSource {
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *rootPath = [paths objectAtIndex:0];//获取根目录
+    NSLog(@"%@",rootPath);
+    NSArray *filesList = [fileMgr subpathsAtPath:rootPath];//取得文件列表
+    NSArray *sortedPaths = [filesList sortedArrayUsingComparator:^(NSString * firstPath, NSString* secondPath) {//
+        NSString *firstUrl = [rootPath stringByAppendingPathComponent:firstPath];//获取前一个文件完整路径
+        NSString *secondUrl = [rootPath stringByAppendingPathComponent:secondPath];//获取后一个文件完整路径
+        NSDictionary *firstFileInfo = [fileMgr attributesOfItemAtPath:firstUrl error:nil];//获取前一个文件信息
+        
+        NSDictionary *secondFileInfo = [fileMgr attributesOfItemAtPath:secondUrl error:nil];//获取后一个文件信息
+        id firstData = [firstFileInfo objectForKey:NSFileModificationDate];//获取前一个文件修改时间
+        id secondData = [secondFileInfo objectForKey:NSFileModificationDate];//获取后一个文件修改时间
+//        return [firstData compare:secondData];//升序
+         return [secondData compare:firstData];//降序
+    }];
+    _dataSource = [NSMutableArray array];
+    _timeArray = [NSMutableArray array];
+    _sizeArray = [NSMutableArray array];
+    NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    for (NSString *fileName in sortedPaths) {
+        NSMutableString *newFileName = [NSMutableString stringWithFormat:@"%@", fileName];
+        NSArray *array = [newFileName componentsSeparatedByString:@"."];
+        if (array.count > 1) {
+            NSMutableArray *arrayM = [NSMutableArray arrayWithArray:array];
+            [arrayM removeLastObject];
+            NSString *fileNameM = [arrayM componentsJoinedByString:@"."];
+            NSLog(@"filename=%@",fileNameM);
+            //保存文件名字
+            [_dataSource addObject:fileNameM];
+        }
+        
+        NSString *filePath = [path stringByAppendingPathComponent:fileName];
+        NSDictionary *fileInfo = [fileMgr attributesOfItemAtPath:filePath error:nil];
+        //获取文件修改时间
+        id fileTime = [fileInfo objectForKey:NSFileModificationDate];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+        NSString *time = [dateFormatter stringFromDate:fileTime];
+        //保存文件修改时间
+        [_timeArray addObject:time];
+        //获取文件大小
+        id fileSize = [fileInfo objectForKey:NSFileSize];
+        NSLog(@"size = %@",fileSize);
+        if ([fileSize floatValue] < 1024) {
+            if ([fileSize floatValue] < 1) {
+                [_sizeArray addObject:@"1KB"];
+            }else {
+                [_sizeArray addObject:[NSString stringWithFormat:@"%@KB",fileSize]];
+            }
+        }else {
+            [_sizeArray addObject:[NSString stringWithFormat:@"%.2fMB",[fileSize floatValue] / 1024]];
+        }
+    }
+}
 //排序
 - (void)sortAction:(UIButton *)sender {
     
@@ -326,7 +391,7 @@
 //行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 20;
+    return _dataSource.count;
 }
 
 //自定义cell
@@ -337,10 +402,47 @@
         
         cell = [[MasterTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
     }
-    
+    cell.title.text = _dataSource[indexPath.row];
+    cell.editTime.text = _timeArray[indexPath.row];
+    cell.fileSize.text = _sizeArray[indexPath.row];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
     return cell;
+}
+//点击某一行
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    EditViewController *editVC = [[EditViewController alloc] init];
+    editVC.fileTitle = _dataSource[indexPath.row];
+    editVC.openFile = @"openFile";
+    [self.navigationController pushViewController:editVC animated:YES];
+}
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"删除";
+}
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section) {
+        return UITableViewCellEditingStyleNone;
+    } else {
+        return UITableViewCellEditingStyleDelete;
+    }
+}
+//删除某一行
+- (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_dataSource[indexPath.row]]];
+        NSFileManager *fileMgr = [NSFileManager defaultManager];
+        if ([fileMgr fileExistsAtPath:filePath]) {
+            NSError *err;
+            [fileMgr removeItemAtPath:filePath error:&err];
+            [_dataSource removeObjectAtIndex:indexPath.row];
+            [_timeArray removeObjectAtIndex:indexPath.row];
+            [_sizeArray removeObjectAtIndex:indexPath.row];
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath]
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
+            [_tableView reloadData];
+        }
+    }
 }
 
 #pragma mark - <UIScrollViewDelegate>

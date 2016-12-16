@@ -47,9 +47,9 @@
     _fileSize.textColor = DOMINANTHUE;
     _fileSize.textAlignment = NSTextAlignmentRight;
     
-    _title.text = @"标题";
-    _editTime.text = @"最后编辑时间:2016-12-01 19:35";
-    _fileSize.text = @"1024 KB";
+//    _title.text = @"标题";
+//    _editTime.text = @"最后编辑时间:2016-12-01 19:35";
+//    _fileSize.text = @"1024 KB";
 }
 
 @end
