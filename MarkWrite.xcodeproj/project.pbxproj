@@ -34,6 +34,7 @@
 		F3A139871E0233D40044AAF3 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A139861E0233D40044AAF3 /* SettingViewController.m */; };
 		F3A139881E0272110044AAF3 /* MMMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0406075F1E022522000699E7 /* MMMarkdown.framework */; };
 		F3A139891E0272110044AAF3 /* MMMarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0406075F1E022522000699E7 /* MMMarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F3A139B81E03C08F0044AAF3 /* LogCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A139B71E03C08F0044AAF3 /* LogCategory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +143,8 @@
 		F382BB981DF256780057D5DA /* QWPTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QWPTools.h; sourceTree = "<group>"; };
 		F382BB991DF256780057D5DA /* QWPTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QWPTools.m; sourceTree = "<group>"; };
 		F3A139861E0233D40044AAF3 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		F3A139B61E03C08F0044AAF3 /* LogCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogCategory.h; sourceTree = "<group>"; };
+		F3A139B71E03C08F0044AAF3 /* LogCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogCategory.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +226,8 @@
 				0426624C1DF00DF800800478 /* PrefixHeader.pch */,
 				0426624B1DF00DF800800478 /* Adaption.h */,
 				F36A1A8A1DF0333400AFBD3A /* CustomConfig.h */,
+				F3A139B61E03C08F0044AAF3 /* LogCategory.h */,
+				F3A139B71E03C08F0044AAF3 /* LogCategory.m */,
 				F36A1A871DF0331E00AFBD3A /* UIColor+hex.h */,
 				F36A1A881DF0331E00AFBD3A /* UIColor+hex.m */,
 				F382BB951DF256080057D5DA /* LabelSizeToFit.h */,
@@ -471,6 +476,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0426627D1DF01ACB00800478 /* EditViewController.m in Sources */,
+				F3A139B81E03C08F0044AAF3 /* LogCategory.m in Sources */,
 				042662541DF00E8D00800478 /* MasterViewController.m in Sources */,
 				F30165291DFA9FBE007A9B17 /* SetPasswordViewController.m in Sources */,
 				F382BB9A1DF256780057D5DA /* QWPTools.m in Sources */,
