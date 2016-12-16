@@ -10,8 +10,6 @@
 
 @interface addNewView : UIView
 
-@property(nonatomic, strong) UISegmentedControl *filePath;
-
 @property(nonatomic, strong) UITextField *fileName;
 
 @property(nonatomic, strong) UIButton *cancel;

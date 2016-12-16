@@ -78,7 +78,7 @@
     _sortButton.enabled = YES;
     _blackView.hidden = YES;
     _sortView.frame = AAdaptionRect(0, -181, 750, 181);
-    _addNewView.frame = AAdaptionRect(0, 1334, 750, 1000);
+    _addNewView.frame = AAdaptionRect(50, 1500, 650, 300);
     _addNewView.fileName.text = @"";
 }
 
@@ -127,11 +127,10 @@
     [_NewFileButton addTarget:self action:@selector(addNewFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_NewFileButton];
     
-    //新建
-    _addNewView = [[addNewView alloc] initWithFrame:AAdaptionRect(0, 1334, 750, 1000)];
+    //新建(50,350)
+    _addNewView = [[addNewView alloc] initWithFrame:AAdaptionRect(50, 1500, 650, 300)];
     [self.view addSubview:_addNewView];
     _addNewView.fileName.delegate = self;
-    [_addNewView.filePath addTarget:self action:@selector(pathOfFile) forControlEvents:UIControlEventValueChanged];
     [_addNewView.cancel addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
     [_addNewView.save addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchUpInside];
     
@@ -224,6 +223,7 @@
         }
     }
 }
+
 //排序
 - (void)sortAction:(UIButton *)sender {
     
@@ -263,8 +263,7 @@
 //设置
 - (void)setAction {
     
-    SettingViewController *vc = [[SettingViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:[SettingViewController new] animated:YES];
 }
 
 //新建
@@ -278,12 +277,6 @@
         [self withdrawAddNewAction];
         [_addNewView.fileName becomeFirstResponder];
     }];
-    
-}
-
-//路径选择
-- (void)pathOfFile{
-    
     
 }
 
@@ -301,6 +294,7 @@
         _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
         _addNewView.fileName.placeholder = @"文件名不能为空";
     } else {
+        
         NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
         NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_addNewView.fileName.text]];
         EditViewController *editVC = [[EditViewController alloc] init];
@@ -345,13 +339,15 @@
     _addNewView.fileName.placeholder = @"";
     _sortButton.enabled = !_sortButton.enabled;
     _blackView.hidden = !_blackView.hidden;
-    if (_addNewView.frame.origin.y == AAdaption(1334)){
-        [UIView animateWithDuration:0.3 animations:^{
-            _addNewView.frame = AAdaptionRect(0, 230, 750, 1000);
+    if (_addNewView.frame.origin.y > AAdaption(1334)){
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            _addNewView.frame = AAdaptionRect(50, 350, 650, 300);
         }];
     }else {
-        [UIView animateWithDuration:0.3 animations:^{
-            _addNewView.frame = AAdaptionRect(0, 1334, 750, 1000);
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            _addNewView.frame = AAdaptionRect(50, 1500, 650, 300);
         }];
     }
 }
@@ -395,7 +391,8 @@
 }
 
 //自定义cell
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *cellIdentifer = @"master";
     MasterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
     if (!cell) {
@@ -409,16 +406,20 @@
     
     return cell;
 }
+
 //点击某一行
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     EditViewController *editVC = [[EditViewController alloc] init];
     editVC.fileTitle = _dataSource[indexPath.row];
     editVC.openFile = @"openFile";
     [self.navigationController pushViewController:editVC animated:YES];
 }
+
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     return @"删除";
 }
+
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section) {
         return UITableViewCellEditingStyleNone;
@@ -426,6 +427,7 @@
         return UITableViewCellEditingStyleDelete;
     }
 }
+
 //删除某一行
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -542,12 +544,6 @@
         
         return YES;
     }
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    
-//    _addNewView.fileName.layer.borderColor = [UIColor colorWithRed:0.902 green:0.898 blue:0.902 alpha:1].CGColor;
-//    _addNewView.fileName.placeholder = @"";
 }
 
 #pragma mark - getter
