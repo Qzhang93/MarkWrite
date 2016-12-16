@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		040607681E022533000699E7 /* MMMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0406075F1E022522000699E7 /* MMMarkdown.framework */; };
+		0406077F1E037794000699E7 /* about.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0406077E1E037794000699E7 /* about.txt */; };
 		042662261DF0054100800478 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 042662251DF0054100800478 /* main.m */; };
 		042662541DF00E8D00800478 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042662511DF00E8D00800478 /* MasterViewController.m */; };
 		042662661DF00FCC00800478 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042662651DF00FCC00800478 /* Assets.xcassets */; };
@@ -30,7 +31,6 @@
 		F382BB931DF255D50057D5DA /* SettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB8F1DF255D50057D5DA /* SettingTableViewCell.m */; };
 		F382BB971DF256080057D5DA /* LabelSizeToFit.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB961DF256080057D5DA /* LabelSizeToFit.m */; };
 		F382BB9A1DF256780057D5DA /* QWPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = F382BB991DF256780057D5DA /* QWPTools.m */; };
-		F382BB9C1DF256A50057D5DA /* MarkWrite.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F382BB9B1DF256A50057D5DA /* MarkWrite.rtf */; };
 		F3A139871E0233D40044AAF3 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A139861E0233D40044AAF3 /* SettingViewController.m */; };
 		F3A139881E0272110044AAF3 /* MMMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0406075F1E022522000699E7 /* MMMarkdown.framework */; };
 		F3A139891E0272110044AAF3 /* MMMarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0406075F1E022522000699E7 /* MMMarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -97,6 +97,7 @@
 
 /* Begin PBXFileReference section */
 		040607561E022522000699E7 /* MMMarkdown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MMMarkdown.xcodeproj; path = "MMMarkdown-master/MMMarkdown.xcodeproj"; sourceTree = "<group>"; };
+		0406077E1E037794000699E7 /* about.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = about.txt; sourceTree = "<group>"; };
 		042662211DF0054100800478 /* MarkWrite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarkWrite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		042662251DF0054100800478 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0426624B1DF00DF800800478 /* Adaption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Adaption.h; sourceTree = "<group>"; };
@@ -140,7 +141,6 @@
 		F382BB961DF256080057D5DA /* LabelSizeToFit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LabelSizeToFit.m; sourceTree = "<group>"; };
 		F382BB981DF256780057D5DA /* QWPTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QWPTools.h; sourceTree = "<group>"; };
 		F382BB991DF256780057D5DA /* QWPTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QWPTools.m; sourceTree = "<group>"; };
-		F382BB9B1DF256A50057D5DA /* MarkWrite.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = MarkWrite.rtf; sourceTree = "<group>"; };
 		F3A139861E0233D40044AAF3 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -294,8 +294,8 @@
 		042662641DF00FCC00800478 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				0406077E1E037794000699E7 /* about.txt */,
 				042662651DF00FCC00800478 /* Assets.xcassets */,
-				F382BB9B1DF256A50057D5DA /* MarkWrite.rtf */,
 				F30164C01DF7E610007A9B17 /* MarkdownGrammar.plist */,
 			);
 			path = Resource;
@@ -456,8 +456,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0426627A1DF0141F00800478 /* LaunchScreen.storyboard in Resources */,
-				F382BB9C1DF256A50057D5DA /* MarkWrite.rtf in Resources */,
 				042662661DF00FCC00800478 /* Assets.xcassets in Resources */,
+				0406077F1E037794000699E7 /* about.txt in Resources */,
 				F30164C11DF7E610007A9B17 /* MarkdownGrammar.plist in Resources */,
 				F36A1AC31DF150A400AFBD3A /* Info.plist in Resources */,
 			);
