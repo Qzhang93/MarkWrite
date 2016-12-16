@@ -16,6 +16,8 @@
 
 @property (nonatomic, strong) PasswordView *openView;
 
+@property(nonatomic, strong) NSMutableArray *dataSource;
+
 //主视图
 @property (nonatomic, strong) UITableView *tableView;
 //Y轴偏移量
