@@ -4,10 +4,6 @@
 <array>
 	<dict>
 		<key>grammarTitle</key>
-		<string>tab</string>
-	</dict>
-	<dict>
-		<key>grammarTitle</key>
 		<string>#</string>
 	</dict>
 	<dict>
@@ -41,6 +37,10 @@
 	<dict>
 		<key>grammarTitle</key>
 		<string>[ ]</string>
+	</dict>
+	<dict>
+		<key>grammarTitle</key>
+		<string>!</string>
 	</dict>
 </array>
 </plist>
