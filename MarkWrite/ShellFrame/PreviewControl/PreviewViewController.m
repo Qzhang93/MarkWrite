@@ -60,9 +60,9 @@
     
     UIAlertController *saveAlert = [UIAlertController alertControllerWithTitle:@"选择保存的格式" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction *saveAsWeb = [UIAlertAction actionWithTitle:@"Web页面" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *share = [UIAlertAction actionWithTitle:@"分享" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        [self saveAsWebAction];
+        [self shareAction];
     }];
     UIAlertAction *saveAsImage = [UIAlertAction actionWithTitle:@"图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
@@ -70,16 +70,16 @@
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     
-    [saveAlert addAction:saveAsWeb];
+    [saveAlert addAction:share];
     [saveAlert addAction:saveAsImage];
     [saveAlert addAction:cancel];
     
     [self presentViewController:saveAlert animated:YES completion:nil];
 }
 
-- (void)saveAsWebAction{
+- (void)shareAction{
     
-    
+    [QWPTools showMessageWithTitle:@"改功能暂未开放" content:@"敬请期待" disMissTime:0.5];
 }
 
 - (void)saveAsImageAction{
