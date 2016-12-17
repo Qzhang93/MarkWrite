@@ -24,5 +24,7 @@
 #import <LocalAuthentication/LocalAuthentication.h>
 
 #import <MMMarkdown/MMMarkdown.h>
+#import <YUChineseSorting/pinyin.h>
+#import <YUChineseSorting/ChineseString.h>
 
 #endif /* PrefixHeader_pch */

@@ -6,5 +6,6 @@ target 'MarkWrite' do
   # use_frameworks!
 
   # Pods for MarkWrite
-
+ pod ‘AFNetworking’
+pod ‘YUChineseSorting’
 end

@@ -17,6 +17,7 @@
 		0426627D1DF01ACB00800478 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426627C1DF01ACB00800478 /* EditViewController.m */; };
 		042662801DF01ADE00800478 /* PreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426627F1DF01ADE00800478 /* PreviewViewController.m */; };
 		042662861DF0267E00800478 /* MasterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 042662851DF0267E00800478 /* MasterTableViewCell.m */; };
+		41A1866CF58D78FEFA92D0DD /* libPods-MarkWrite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED4B49BFF1A934BBD39D6D1F /* libPods-MarkWrite.a */; };
 		F30164BF1DF7E3E4007A9B17 /* SecondaryKeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30164BE1DF7E3E4007A9B17 /* SecondaryKeyboardView.m */; };
 		F30164C11DF7E610007A9B17 /* MarkdownGrammar.plist in Resources */ = {isa = PBXBuildFile; fileRef = F30164C01DF7E610007A9B17 /* MarkdownGrammar.plist */; };
 		F301651A1DFA8CAB007A9B17 /* PasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30165191DFA8CAB007A9B17 /* PasswordView.m */; };
@@ -115,6 +116,7 @@
 		0426627F1DF01ADE00800478 /* PreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewViewController.m; sourceTree = "<group>"; };
 		042662841DF0267E00800478 /* MasterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterTableViewCell.h; sourceTree = "<group>"; };
 		042662851DF0267E00800478 /* MasterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterTableViewCell.m; sourceTree = "<group>"; };
+		ED4B49BFF1A934BBD39D6D1F /* libPods-MarkWrite.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MarkWrite.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F30164BD1DF7E3E4007A9B17 /* SecondaryKeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondaryKeyboardView.h; sourceTree = "<group>"; };
 		F30164BE1DF7E3E4007A9B17 /* SecondaryKeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondaryKeyboardView.m; sourceTree = "<group>"; };
 		F30164C01DF7E610007A9B17 /* MarkdownGrammar.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MarkdownGrammar.plist; sourceTree = "<group>"; };
@@ -145,6 +147,8 @@
 		F3A139861E0233D40044AAF3 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		F3A139B61E03C08F0044AAF3 /* LogCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogCategory.h; sourceTree = "<group>"; };
 		F3A139B71E03C08F0044AAF3 /* LogCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogCategory.m; sourceTree = "<group>"; };
+		F99BFD1283100245501428FA /* Pods-MarkWrite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarkWrite.release.xcconfig"; path = "Pods/Target Support Files/Pods-MarkWrite/Pods-MarkWrite.release.xcconfig"; sourceTree = "<group>"; };
+		FBC0CD037793B547C25A181C /* Pods-MarkWrite.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarkWrite.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MarkWrite/Pods-MarkWrite.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +159,7 @@
 				040607681E022533000699E7 /* MMMarkdown.framework in Frameworks */,
 				F3A139881E0272110044AAF3 /* MMMarkdown.framework in Frameworks */,
 				F301658E1E00DC87007A9B17 /* LocalAuthentication.framework in Frameworks */,
+				41A1866CF58D78FEFA92D0DD /* libPods-MarkWrite.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,6 +194,7 @@
 				042662231DF0054100800478 /* MarkWrite */,
 				042662221DF0054100800478 /* Products */,
 				F301658C1E00DC87007A9B17 /* Frameworks */,
+				6D2F76783EA370D54F3E6B86 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -306,6 +312,15 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		6D2F76783EA370D54F3E6B86 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FBC0CD037793B547C25A181C /* Pods-MarkWrite.debug.xcconfig */,
+				F99BFD1283100245501428FA /* Pods-MarkWrite.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		F30165161DFA8CAB007A9B17 /* Password */ = {
 			isa = PBXGroup;
 			children = (
@@ -329,6 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				F301658D1E00DC87007A9B17 /* LocalAuthentication.framework */,
+				ED4B49BFF1A934BBD39D6D1F /* libPods-MarkWrite.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -362,10 +378,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 042662381DF0054100800478 /* Build configuration list for PBXNativeTarget "MarkWrite" */;
 			buildPhases = (
+				985F122C9693384876D29D35 /* [CP] Check Pods Manifest.lock */,
 				0426621D1DF0054100800478 /* Sources */,
 				0426621E1DF0054100800478 /* Frameworks */,
 				0426621F1DF0054100800478 /* Resources */,
 				F3A1398C1E0272110044AAF3 /* Embed Frameworks */,
+				55CB6E42B3E2D61D8334924B /* [CP] Embed Pods Frameworks */,
+				AB6316FEE9757CC5A862BF61 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -469,6 +488,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		55CB6E42B3E2D61D8334924B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MarkWrite/Pods-MarkWrite-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		985F122C9693384876D29D35 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		AB6316FEE9757CC5A862BF61 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MarkWrite/Pods-MarkWrite-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0426621D1DF0054100800478 /* Sources */ = {
@@ -598,6 +665,7 @@
 		};
 		042662391DF0054100800478 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBC0CD037793B547C25A181C /* Pods-MarkWrite.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = TTHS74G44H;
@@ -608,11 +676,13 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pengqiwei.MarkWrite3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		0426623A1DF0054100800478 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F99BFD1283100245501428FA /* Pods-MarkWrite.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = TTHS74G44H;
@@ -623,6 +693,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pengqiwei.MarkWrite3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
