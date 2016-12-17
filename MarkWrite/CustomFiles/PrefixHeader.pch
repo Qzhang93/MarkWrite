@@ -12,6 +12,7 @@
 #import "Adaption.h"
 #import "CustomConfig.h"
 #import "UIColor+hex.h"
+#import "LogCategory.h"
 
 #import "SettingViewController.h"
 #import "EditViewController.h"
