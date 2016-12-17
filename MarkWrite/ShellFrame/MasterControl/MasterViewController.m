@@ -12,7 +12,7 @@
 #import "SortView.h"
 #import "addNewView.h"
 
-@interface MasterViewController ()<UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate>
+@interface MasterViewController ()<UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate, UISearchControllerDelegate>
 
 @property (nonatomic, strong) PasswordView *openView;
 
@@ -21,6 +21,10 @@
 @property (nonatomic, strong) NSMutableArray *timeArray;
 //存放文件大小数组
 @property (nonatomic, strong) NSMutableArray *sizeArray;
+//转换数组
+@property (nonatomic, strong) NSArray *dataArray;
+//转换标志
+@property (nonatomic, strong) NSString *sortType;
 
 //主视图
 @property (nonatomic, strong) UITableView *tableView;
@@ -38,6 +42,14 @@
 
 //搜索栏
 @property (nonatomic, strong) UISearchController *searchController;
+//搜索结果
+@property (nonatomic, strong) NSMutableArray *searchResults;
+//搜索结果文件信息下标
+@property (nonatomic, assign) NSInteger infoIndex;
+//搜索结果文件时间数组
+@property (nonatomic, strong) NSMutableArray *fileTimeResults;
+//搜索结果文件大小数组
+@property (nonatomic, strong) NSMutableArray *fileSizeResults;
 
 //新建
 @property (nonatomic, strong) UIButton *NewFileButton;
@@ -56,7 +68,9 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.backBarButtonItem = backItem;
     [self initUserInterface];
+    [self loadArray];
     [self loadDataSource];
+//    self.definesPresentationContext = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -67,6 +81,7 @@
     [self showNewFileBtn];
     [self loadDataSource];
     [_tableView reloadData];
+//    self.tableView.tableHeaderView = self.searchController.searchBar;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -80,6 +95,8 @@
     _sortView.frame = AAdaptionRect(0, -181, 750, 181);
     _addNewView.frame = AAdaptionRect(50, 1500, 650, 300);
     _addNewView.fileName.text = @"";
+    [_searchController setActive:NO];
+//    self.tableView.tableHeaderView = nil;
 }
 
 #pragma mark - UI
@@ -166,6 +183,14 @@
 
 
 #pragma mark - Events
+//初始化数组
+- (void)loadArray {
+    _dataSource = [NSMutableArray array];
+    _timeArray = [NSMutableArray array];
+    _sizeArray = [NSMutableArray array];
+    _fileTimeResults = [NSMutableArray array];
+    _fileSizeResults = [NSMutableArray array];
+}
 //初始化数据源
 - (void)loadDataSource {
     NSFileManager *fileMgr = [NSFileManager defaultManager];
@@ -184,18 +209,22 @@
 //        return [firstData compare:secondData];//升序
          return [secondData compare:firstData];//降序
     }];
-    _dataSource = [NSMutableArray array];
-    _timeArray = [NSMutableArray array];
-    _sizeArray = [NSMutableArray array];
     NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-    for (NSString *fileName in sortedPaths) {
+    if ([_sortType isEqualToString:@"fileName"]) {
+        _dataArray = [ChineseString SortArray:sortedPaths];
+    }else {
+        _dataArray = sortedPaths;
+    }
+    [_dataSource removeAllObjects];
+    [_timeArray removeAllObjects];
+    [_sizeArray removeAllObjects];
+    for (NSString *fileName in _dataArray) {
         NSMutableString *newFileName = [NSMutableString stringWithFormat:@"%@", fileName];
         NSArray *array = [newFileName componentsSeparatedByString:@"."];
         if (array.count > 1) {
             NSMutableArray *arrayM = [NSMutableArray arrayWithArray:array];
             [arrayM removeLastObject];
             NSString *fileNameM = [arrayM componentsJoinedByString:@"."];
-            NSLog(@"filename=%@",fileNameM);
             //保存文件名字
             [_dataSource addObject:fileNameM];
         }
@@ -222,6 +251,7 @@
             [_sizeArray addObject:[NSString stringWithFormat:@"%.2fMB",[fileSize floatValue] / 1024]];
         }
     }
+    [_tableView reloadData];
 }
 
 //排序
@@ -242,7 +272,8 @@
         {
             _sortView.checkView.frame = AAdaptionRect(550, 25, 40, 40);
             [self withdrawSortAction];
-            [_tableView reloadData];
+            _sortType = @"time";
+            [self loadDataSource];
         }
             break;
             
@@ -251,7 +282,8 @@
         {
             _sortView.checkView.frame = AAdaptionRect(550, 116, 40, 40);
             [self withdrawSortAction];
-            [_tableView reloadData];
+            _sortType = @"fileName";
+            [self loadDataSource];
         }
             break;
             
@@ -380,14 +412,40 @@
 #pragma mark - UISearchResultsUpdating
 //当搜索时每一次改变文本长度该方法就会被触发
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    
+    //1.获取搜索条件
+    NSString *text = searchController.searchBar.text;
+    //2.创建谓词，用于检索搜索内容
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self beginswith [cd] %@",text];
+    if (_searchResults && text.length > 0) {
+        [_searchResults removeAllObjects];
+        [_fileTimeResults removeAllObjects];
+        [_fileSizeResults removeAllObjects];
+        _searchResults = [[_dataSource filteredArrayUsingPredicate:predicate] mutableCopy];
+        for (NSInteger index = 0; index < _searchResults.count; index ++) {
+            for (NSInteger flag = 0; flag < _dataSource.count; flag ++) {
+                if ([_searchResults[index] isEqualToString:_dataSource[flag]]) {
+                    [_fileTimeResults addObject:_timeArray[flag]];
+                    [_fileSizeResults addObject:_sizeArray[flag]];
+                }
+            }
+        }
+    }else if (text.length == 0){
+        _searchResults = [_dataSource mutableCopy];
+        _fileTimeResults = [_timeArray mutableCopy];
+        _fileSizeResults = [_sizeArray mutableCopy];
+    }
+    //刷新表格视图
+    [_tableView reloadData];
+    NSLog(@"%@",_searchResults);
+    NSLog(@"time = %@",_fileTimeResults);
+    NSLog(@"size = %@",_fileSizeResults);
 }
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
 //行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return _dataSource.count;
+    return _searchController.active ? _searchResults.count : _dataSource.count;
 }
 
 //自定义cell
@@ -399,9 +457,9 @@
         
         cell = [[MasterTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
     }
-    cell.title.text = _dataSource[indexPath.row];
-    cell.editTime.text = _timeArray[indexPath.row];
-    cell.fileSize.text = _sizeArray[indexPath.row];
+    cell.title.text = _searchController.active ? _searchResults[indexPath.row] : _dataSource[indexPath.row];
+    cell.editTime.text = _searchController.active ? _fileTimeResults[indexPath.row] : _timeArray[indexPath.row];
+    cell.fileSize.text = _searchController.active ? _fileSizeResults[indexPath.row] : _sizeArray[indexPath.row];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
     return cell;
@@ -411,9 +469,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EditViewController *editVC = [[EditViewController alloc] init];
-    editVC.fileTitle = _dataSource[indexPath.row];
+    editVC.fileTitle = _searchController.active ? _searchResults[indexPath.row] : _dataSource[indexPath.row];
     editVC.openFile = @"openFile";
-    [self.navigationController pushViewController:editVC animated:YES];
+    [self.navigationController pushViewController:editVC animated: YES];
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -554,14 +612,19 @@
         //设置刷新对象
         _searchController.searchResultsUpdater = self;
         //设置搜索时是否模糊背景
-        _searchController.dimsBackgroundDuringPresentation = YES;
+        _searchController.dimsBackgroundDuringPresentation = NO;
         //设置搜索时是否隐藏导航栏
         _searchController.hidesNavigationBarDuringPresentation = NO;
         //设置搜索栏的fram
         _searchController.searchBar.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44);
+//        _searchController.delegate = self;
     }
     return _searchController;
 }
+
+//- (void)willDismissSearchController:(UISearchController *)searchController {
+//    self.tableView.tableHeaderView = self.searchController.searchBar;
+//}
 
 
 @end

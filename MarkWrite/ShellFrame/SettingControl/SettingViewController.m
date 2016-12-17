@@ -94,9 +94,22 @@
         
         //辅助键盘
         case 0: {
-            cell.textLabel.text = @"辅助键盘";
+            NSArray *arr = @[@"辅助键盘",@"iCloud备份"];
+            cell.textLabel.text = arr[indexPath.row];
             cell.switchButton.hidden = NO;
-            cell.switchButton.on = [status boolForKey:@"aKeyboredStatus"];
+            switch (indexPath.row) {
+                case 0: {
+                    cell.switchButton.on = [status boolForKey:@"aKeyboredStatus"];
+                }
+                    break;
+                case 1: {
+                    cell.switchButton.on = [status boolForKey:@"cKeyboredStatus"];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
         }
             break;
             
@@ -257,14 +270,23 @@
     NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
     //辅助键盘开关
     if (sender.tag == 0) {
-                if (sender.isOn) {
-                    
-                    [status setBool:YES forKey:@"aKeyboredStatus"];
-                }else {
-                    
-                    [status setBool:NO forKey:@"aKeyboredStatus"];
-                }
-            }
+        if (sender.isOn) {
+            
+            [status setBool:YES forKey:@"aKeyboredStatus"];
+        }else {
+            
+            [status setBool:NO forKey:@"aKeyboredStatus"];
+        }
+    }
+    else if (sender.tag == 1) {
+        if (sender.isOn) {
+            
+            [status setBool:YES forKey:@"cKeyboredStatus"];
+        }else {
+            
+            [status setBool:NO forKey:@"cKeyboredStatus"];
+        }
+    }
     //密码开关
     else if (sender.tag == 2) {
         _passwordSwitch = sender;
