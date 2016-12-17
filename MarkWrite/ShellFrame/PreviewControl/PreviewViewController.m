@@ -64,10 +64,6 @@
         
         [self saveAsWebAction];
     }];
-    UIAlertAction *saveAsMarkdown = [UIAlertAction actionWithTitle:@"Markdown文本" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        [self saveAsMarkdownAction];
-    }];
     UIAlertAction *saveAsImage = [UIAlertAction actionWithTitle:@"图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         [self saveAsImageAction];
@@ -75,7 +71,6 @@
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     
     [saveAlert addAction:saveAsWeb];
-    [saveAlert addAction:saveAsMarkdown];
     [saveAlert addAction:saveAsImage];
     [saveAlert addAction:cancel];
     
@@ -83,11 +78,6 @@
 }
 
 - (void)saveAsWebAction{
-    
-    
-}
-
-- (void)saveAsMarkdownAction{
     
     
 }

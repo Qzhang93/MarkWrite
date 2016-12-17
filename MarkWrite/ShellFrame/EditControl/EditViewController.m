@@ -98,73 +98,107 @@
     NSInteger index = tag - 200;
     switch (index) {
             
-        //tab
+        //#
         case 0:
         {
-            NSLog(@"%ld",(long)index);
+            _editView.text = [NSString stringWithFormat:@"%@%@",_editView.text,@"#"];
         }
             break;
             
-        //#
+        //link
         case 1:
         {
-            NSLog(@"%ld",(long)index);
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"添加链接" message:@"请输入链接以及要显示的文本" preferredStyle:UIAlertControllerStyleAlert];
+            
+            [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                
+               textField.placeholder = @"请输入链接显示的文本(可选)";
+            }];
+            [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                
+                textField.placeholder = @"请输入链接";
+            }];
+            [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+               _editView.text = [NSString stringWithFormat:@"%@[%@](%@)",_editView.text,alert.textFields[0].text,alert.textFields[1].text];
+            }]];
+            
+            [self presentViewController:alert animated:YES completion:nil];
         }
             break;
           
-        //link
+        //img
         case 2:
         {
-            NSLog(@"%ld",(long)index);
+            
         }
             break;
           
-        //Img
+        //space
         case 3:
         {
-            NSLog(@"%ld",(long)index);
-        }
-            break;
-            
-        //Space
-        case 4:
-        {
-            NSLog(@"%ld",(long)index);
+            _editView.text = [NSString stringWithFormat:@"%@%@",_editView.text,@"&nbsp;"];
         }
             break;
             
         //*
-        case 5:
+        case 4:
         {
-            NSLog(@"%ld",(long)index);
-        }
-            break;
-        
-        //>
-        case 6:
-        {
-            NSLog(@"%ld",(long)index);
+            _editView.text = [NSString stringWithFormat:@"%@%@",_editView.text,@"*"];
         }
             break;
             
-        //-
-        case 7:
+        //>
+        case 5:
         {
-            NSLog(@"%ld",(long)index);
+            if (_editView.text.length == 0) {
+                
+                _editView.text = [NSString stringWithFormat:@"%@%@",_editView.text,@">"];
+            } else {
+                
+                if ([_editView.text hasSuffix:@">"]) {
+                    
+                    _editView.text = [NSString stringWithFormat:@"%@%@",_editView.text,@">"];
+                } else {
+                    
+                    _editView.text = [NSString stringWithFormat:@"%@\n%@",_editView.text,@">"];
+                }
+            }
+        }
+            break;
+        
+        //-
+        case 6:
+        {
+            if (_editView.text.length == 0) {
+                
+                _editView.text = [NSString stringWithFormat:@"%@%@ ",_editView.text,@"-"];
+            } else {
+                
+                _editView.text = [NSString stringWithFormat:@"%@\n%@ ",_editView.text,@"-"];
+            }
         }
             break;
             
         //~~
-        case 8:
+        case 7:
         {
-            NSLog(@"%ld",(long)index);
+            _editView.text = [NSString stringWithFormat:@"%@%@",_editView.text,@"~~"];
         }
             break;
             
-        //[ ]
+        //[]
+        case 8:
+        {
+            _editView.text = [NSString stringWithFormat:@"%@%@",_editView.text,@"[]"];
+        }
+            break;
+            
+        //!
         case 9:
         {
-            NSLog(@"%ld",(long)index);
+            _editView.text = [NSString stringWithFormat:@"%@%@",_editView.text,@"!"];
         }
             break;
             
