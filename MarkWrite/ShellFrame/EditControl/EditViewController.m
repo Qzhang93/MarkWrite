@@ -63,7 +63,6 @@
         NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
         NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_fileTitle]];
         NSString *text = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-        NSLog(@"text = %@",text);
         _editView.text = text;
         _filePath = filePath;
     }
