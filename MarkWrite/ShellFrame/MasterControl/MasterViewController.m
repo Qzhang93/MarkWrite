@@ -55,6 +55,10 @@
 @property (nonatomic, strong) UIButton *NewFileButton;
 @property (nonatomic, strong) addNewView *addNewView;
 
+@property (nonatomic, strong) UIAlertAction *sure;
+@property (nonatomic, strong) UITextField *renTextField;
+@property (nonatomic, assign) BOOL isRepetition;
+
 @end
 
 @implementation MasterViewController
@@ -63,14 +67,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.automaticallyAdjustsScrollViewInsets = NO;
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.backBarButtonItem = backItem;
     [self initUserInterface];
     [self loadArray];
     [self loadDataSource];
-//    self.definesPresentationContext = YES;
+    self.definesPresentationContext = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -81,7 +83,7 @@
     [self showNewFileBtn];
     [self loadDataSource];
     [_tableView reloadData];
-//    self.tableView.tableHeaderView = self.searchController.searchBar;
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -95,8 +97,6 @@
     _sortView.frame = AAdaptionRect(0, -181, 750, 181);
     _addNewView.frame = AAdaptionRect(50, 1500, 650, 300);
     _addNewView.fileName.text = @"";
-    [_searchController setActive:NO];
-//    self.tableView.tableHeaderView = nil;
 }
 
 #pragma mark - UI
@@ -436,9 +436,6 @@
     }
     //刷新表格视图
     [_tableView reloadData];
-    NSLog(@"%@",_searchResults);
-    NSLog(@"time = %@",_fileTimeResults);
-    NSLog(@"size = %@",_fileSizeResults);
 }
 
 #pragma mark - <UITableViewDelegate,UITableViewDataSource>
@@ -473,38 +470,97 @@
     editVC.openFile = @"openFile";
     [self.navigationController pushViewController:editVC animated: YES];
 }
+//每一行添加编辑
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //重命名按钮
+    UITableViewRowAction *renAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"重命名" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"重命名" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        //取消按钮
+        UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        //确定按钮
+        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //创建文件管理者
+            NSFileManager *fileMgr = [[NSFileManager alloc] init];
+            //获取本地文件目录
+            NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+            //获取旧文件路径
+            NSString *oldFilePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_dataSource[indexPath.row]]];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self == %@",_renTextField.text];
+            NSArray *result = [_dataSource filteredArrayUsingPredicate:predicate];
+            if (result.count > 0) {
+                [QWPTools showMessageWithTitle:@"提示" content:@"对不起，已存在与该名字相同的文件" disMissTime:1.0f];
+                [_tableView reloadData];
+            } else {
+                //创建新文件路径
+                NSString *newFilePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_renTextField.text]];
+                //获取旧文件内容
+                NSString *oldFileContents = [NSString stringWithContentsOfFile:oldFilePath encoding:NSUTF8StringEncoding error:nil];
+                //将旧文件内容转换成Data
+                NSData *fileData = [oldFileContents dataUsingEncoding:NSUTF8StringEncoding];
+                //将旧文件内容保存到新文件
+                if ([fileMgr createFileAtPath:newFilePath contents:fileData attributes:nil]) {
+                    //删除旧文件
+                    [self deleteSelectObjectAtIndexPath:indexPath isRename:YES];
+                    [self loadDataSource];
+                    [_tableView reloadData];
+                }
+            }
+        }];
+        [sure setEnabled:NO];
+        self.sure = sure;
 
--(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return @"删除";
+        [alert addAction:cancle];
+        [alert addAction:sure];
+        
+        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"请输入新名字";
+            [textField setClearButtonMode:UITextFieldViewModeWhileEditing];
+            _renTextField = textField;
+            //发送通知监听TextField值改变
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+           
+        }];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
+    
+    //删除按钮
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        [self deleteSelectObjectAtIndexPath:indexPath isRename:NO];
+    }];
+    deleteAction.backgroundColor = [UIColor redColor];
+    return @[deleteAction,renAction];
 }
-
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section) {
-        return UITableViewCellEditingStyleNone;
-    } else {
-        return UITableViewCellEditingStyleDelete;
-    }
-}
-
-//删除某一行
-- (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-        NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_dataSource[indexPath.row]]];
-        NSFileManager *fileMgr = [NSFileManager defaultManager];
-        if ([fileMgr fileExistsAtPath:filePath]) {
-            NSError *err;
-            [fileMgr removeItemAtPath:filePath error:&err];
-            [_dataSource removeObjectAtIndex:indexPath.row];
-            [_timeArray removeObjectAtIndex:indexPath.row];
-            [_sizeArray removeObjectAtIndex:indexPath.row];
+//删除选中项
+- (void)deleteSelectObjectAtIndexPath:(NSIndexPath *)indexPath isRename:(BOOL)rename {
+    NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_dataSource[indexPath.row]]];
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    if ([fileMgr fileExistsAtPath:filePath]) {
+        NSError *err;
+        [fileMgr removeItemAtPath:filePath error:&err];
+        [_dataSource removeObjectAtIndex:indexPath.row];
+        [_timeArray removeObjectAtIndex:indexPath.row];
+        [_sizeArray removeObjectAtIndex:indexPath.row];
+        if (rename == NO) {
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationAutomatic];
             [_tableView reloadData];
+        } else {
+            [_tableView reloadData];
         }
+        
     }
 }
-
+//重命名输入框文本改变执行该方法
+- (void)textFieldTextChanged:(NSNotification *)notification{
+    if (_renTextField.text.length > 0) {
+        [self.sure setEnabled:YES];
+    } else {
+        self.sure.enabled = NO;
+    }
+}
 #pragma mark - <UIScrollViewDelegate>
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -613,18 +669,8 @@
         _searchController.searchResultsUpdater = self;
         //设置搜索时是否模糊背景
         _searchController.dimsBackgroundDuringPresentation = NO;
-        //设置搜索时是否隐藏导航栏
-        _searchController.hidesNavigationBarDuringPresentation = NO;
-        //设置搜索栏的fram
-        _searchController.searchBar.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44);
-//        _searchController.delegate = self;
     }
     return _searchController;
 }
-
-//- (void)willDismissSearchController:(UISearchController *)searchController {
-//    self.tableView.tableHeaderView = self.searchController.searchBar;
-//}
-
 
 @end
