@@ -42,10 +42,17 @@
 
 #pragma mark - UITableViewDataSource
 //行数
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 1) {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0) {
         return 2;
-    }else if (section == 2){
+    }
+    
+    else if (section == 1) {
+        return 2;
+    }
+    
+    else if (section == 2){
         NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
         if ([status boolForKey:@"pKeyboredStatus"]) {
             NSError *error = nil;
@@ -62,7 +69,9 @@
         }else {
             return _sectionNum;
         }
-    }else {
+    }
+    
+    else {
         return 1;
     }
 }

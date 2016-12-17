@@ -127,7 +127,7 @@
     [_NewFileButton addTarget:self action:@selector(addNewFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_NewFileButton];
     
-    //新建(50,350)
+    //新建
     _addNewView = [[addNewView alloc] initWithFrame:AAdaptionRect(50, 1500, 650, 300)];
     [self.view addSubview:_addNewView];
     _addNewView.fileName.delegate = self;
