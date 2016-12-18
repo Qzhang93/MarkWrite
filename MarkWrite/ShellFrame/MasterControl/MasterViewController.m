@@ -196,7 +196,6 @@
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *rootPath = [paths objectAtIndex:0];//获取根目录
-    NSLog(@"%@",rootPath);
     NSArray *filesList = [fileMgr subpathsAtPath:rootPath];//取得文件列表
     NSArray *sortedPaths = [filesList sortedArrayUsingComparator:^(NSString * firstPath, NSString* secondPath) {//
         NSString *firstUrl = [rootPath stringByAppendingPathComponent:firstPath];//获取前一个文件完整路径
@@ -228,7 +227,6 @@
             //保存文件名字
             [_dataSource addObject:fileNameM];
         }
-        
         NSString *filePath = [path stringByAppendingPathComponent:fileName];
         NSDictionary *fileInfo = [fileMgr attributesOfItemAtPath:filePath error:nil];
         //获取文件修改时间
@@ -240,7 +238,6 @@
         [_timeArray addObject:time];
         //获取文件大小
         id fileSize = [fileInfo objectForKey:NSFileSize];
-        NSLog(@"size = %@",fileSize);
         if ([fileSize floatValue] < 1024) {
             if ([fileSize floatValue] < 1) {
                 [_sizeArray addObject:@"1KB"];
@@ -326,13 +323,20 @@
         _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
         _addNewView.fileName.placeholder = @"文件名不能为空";
     } else {
-        
-        NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-        NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_addNewView.fileName.text]];
-        EditViewController *editVC = [[EditViewController alloc] init];
-        editVC.fileTitle = _addNewView.fileName.text;
-        editVC.filePath = filePath;
-        [self.navigationController pushViewController:editVC animated:YES];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self == %@",_addNewView.fileName.text];
+        NSArray *result = [_dataSource filteredArrayUsingPredicate:predicate];
+        if (result.count > 0) {
+            _addNewView.fileName.text = @"";
+            _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
+            _addNewView.fileName.placeholder = @"文件名重复";
+        } else {
+            NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+            NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_addNewView.fileName.text]];
+            EditViewController *editVC = [[EditViewController alloc] init];
+            editVC.fileTitle = _addNewView.fileName.text;
+            editVC.filePath = filePath;
+            [self.navigationController pushViewController:editVC animated:YES];
+        }
     }
 }
 
@@ -477,7 +481,8 @@
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"重命名" message:nil preferredStyle:UIAlertControllerStyleAlert];
         //取消按钮
         UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
+            //表格视图退出编辑状态
+            _tableView.editing = NO;
         }];
         //确定按钮
         UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -490,8 +495,9 @@
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self == %@",_renTextField.text];
             NSArray *result = [_dataSource filteredArrayUsingPredicate:predicate];
             if (result.count > 0) {
-                [QWPTools showMessageWithTitle:@"提示" content:@"对不起，已存在与该名字相同的文件" disMissTime:1.0f];
-                [_tableView reloadData];
+                [QWPTools showMessageWithTitle:@"提示" content:@"对不起，已存在与该名字相同的文件" disMissTime:1.5f];
+                //表格视图退出编辑状态
+                _tableView.editing = NO;
             } else {
                 //创建新文件路径
                 NSString *newFilePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_renTextField.text]];
@@ -503,8 +509,8 @@
                 if ([fileMgr createFileAtPath:newFilePath contents:fileData attributes:nil]) {
                     //删除旧文件
                     [self deleteSelectObjectAtIndexPath:indexPath isRename:YES];
+                    //重新加载数据
                     [self loadDataSource];
-                    [_tableView reloadData];
                 }
             }
         }];
@@ -543,12 +549,15 @@
         [_dataSource removeObjectAtIndex:indexPath.row];
         [_timeArray removeObjectAtIndex:indexPath.row];
         [_sizeArray removeObjectAtIndex:indexPath.row];
+        //判断是否是重新命名
         if (rename == NO) {
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationAutomatic];
-            [_tableView reloadData];
         } else {
-            [_tableView reloadData];
+            //表格视图退出编辑状态
+            _tableView.editing = NO;
+            //重新加载数据
+            [self loadDataSource];
         }
         
     }
