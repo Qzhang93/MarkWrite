@@ -79,7 +79,10 @@
 
 - (void)shareAction{
     
-    [QWPTools showMessageWithTitle:@"改功能暂未开放" content:@"敬请期待" disMissTime:0.5];
+    UIActivityViewController *shareVC = [[UIActivityViewController alloc]initWithActivityItems:@[@"test"] applicationActivities:nil];
+    [self presentViewController:shareVC animated:YES completion:^{
+        
+    }];
 }
 
 - (void)saveAsImageAction{

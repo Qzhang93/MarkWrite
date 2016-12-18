@@ -12,7 +12,7 @@
 #import "SortView.h"
 #import "addNewView.h"
 
-@interface MasterViewController ()<UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate, UISearchControllerDelegate>
+@interface MasterViewController ()<UISearchResultsUpdating,UIViewControllerPreviewingDelegate,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate, UISearchControllerDelegate>
 
 @property (nonatomic, strong) PasswordView *openView;
 
@@ -69,6 +69,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.backBarButtonItem = backItem;
+    
+    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+        
+        [self creat3Dtouch];
+    }
     [self initUserInterface];
     [self loadArray];
     [self loadDataSource];
@@ -538,6 +543,7 @@
     deleteAction.backgroundColor = [UIColor redColor];
     return @[deleteAction,renAction];
 }
+
 //删除选中项
 - (void)deleteSelectObjectAtIndexPath:(NSIndexPath *)indexPath isRename:(BOOL)rename {
     NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
@@ -667,6 +673,58 @@
         
         return YES;
     }
+}
+
+#pragma mark - <UIViewControllerPreviewingDelegate>
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location{
+    
+    if ([self.presentedViewController isKindOfClass:[EditViewController class]]) {
+        
+        return nil;
+    } else {
+        
+        // 转换坐标
+        CGPoint p = [_tableView convertPoint:CGPointMake(location.x, location.y ) fromView:self.view];
+        
+        // 通过坐标活的当前cell indexPath
+        NSIndexPath *indexPath = [_tableView indexPathForRowAtPoint:CGPointMake(p.x, p.y)];
+        // 获得当前cell
+        UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
+        
+        EditViewController *editVC = [[EditViewController alloc] init];
+        editVC.preferredContentSize = AAdaptionSize(0, 1200);
+        editVC.fileTitle = _dataSource[indexPath.row];
+        editVC.openFile = @"openFile";
+        CGRect rect = cell.frame;
+        previewingContext.sourceRect = rect;
+        
+        return editVC;
+    }
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit{
+    
+    [self showViewController:viewControllerToCommit sender:self];
+}
+
+#pragma mark - 3Dtouch
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    
+    [self check3Dtouch];
+}
+
+- (void)check3Dtouch{
+    
+    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+        
+        [self registerForPreviewingWithDelegate:(id)self sourceView:_tableView];
+    }
+}
+
+- (void)creat3Dtouch{
+    
+    UIApplicationShortcutItem *creatNewItem = [[UIApplicationShortcutItem alloc] initWithType:@"CreatNew" localizedTitle:@"新建文档" localizedSubtitle:nil icon:[UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeAdd] userInfo:nil];
+    [UIApplication sharedApplication].shortcutItems = @[creatNewItem];
 }
 
 #pragma mark - getter
