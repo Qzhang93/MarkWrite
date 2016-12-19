@@ -87,7 +87,25 @@
 
 - (void)saveAsImageAction{
     
+    CGRect screenRect = [UIScreen mainScreen].bounds;
+    UIGraphicsBeginImageContext(screenRect.size);
+    UIGraphicsGetCurrentContext();
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    
+    if (error) {
+        
+        [QWPTools showMessageWithTitle:@"保存失败" content:nil disMissTime:0.5];
+    } else {
+        
+        [QWPTools showMessageWithTitle:@"保存成功" content:nil disMissTime:0.5];
+    }
 }
 
 

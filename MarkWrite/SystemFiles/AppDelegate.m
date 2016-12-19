@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "MasterViewController.h"
 #import "PasswordView.h"
 
 @interface AppDelegate ()<UITextFieldDelegate>

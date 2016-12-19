@@ -14,6 +14,7 @@
 #import "UIColor+hex.h"
 #import "LogCategory.h"
 
+#import "MasterViewController.h"
 #import "SettingViewController.h"
 #import "EditViewController.h"
 #import "PreviewViewController.h"
