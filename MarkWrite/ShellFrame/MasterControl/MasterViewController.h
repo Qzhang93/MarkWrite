@@ -10,4 +10,6 @@
 
 @interface MasterViewController : UIViewController
 
+- (void)addNewFile;
+
 @end

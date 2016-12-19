@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "MasterViewController.h"
 #import "PasswordView.h"
 
 @interface AppDelegate ()<UITextFieldDelegate>
@@ -29,37 +28,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor whiteColor];
-    MasterViewController *MasterVC = [[MasterViewController alloc] init];
-    MasterVC.title = @"MarkWrite";
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:MasterVC];
-    self.window.rootViewController = nav;
-    [self.window makeKeyAndVisible];
-    
-    //导航栏设置
-    nav.navigationBar.translucent = NO;
-    [nav.navigationBar setTitleTextAttributes:@{NSFontAttributeName:AAFont(37),NSForegroundColorAttributeName:COLOR(whiteColor)}];
-    nav.navigationBar.barTintColor = DOMINANTHUE;
-    nav.navigationBar.tintColor = COLOR(whiteColor);
-    
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]){
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
-        //第一次启动
-        //键盘状态
-        NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
-        [status setBool:YES forKey:@"aKeyboredStatus"];
-        [status setBool:NO forKey:@"pKeyboredStatus"];
-        [status setBool:NO forKey:@"tKeyboredStatus"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"first" object:nil];
-    }else{
-        //不是第一次启动了
-        
-    }
-    
-    self.openView = [[PasswordView alloc] initWithFrame:[UIScreen mainScreen].bounds isVerifyOpen:YES isOldPassword:NO isNewPassword:NO isVerifyNew:NO];
-    self.openView.backgroundColor = RGBCOLOR(230, 230, 230, 1.0);
-    _openView.inputPassword.delegate = self;
+    [self creatRootViewControllerWith3Dtouch:NO];
     
     return YES;
 }
@@ -186,6 +155,56 @@
         return NO;
     }
     return YES;
+}
+
+#pragma mark - 3Dtouch
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler{
+    
+    if ([shortcutItem.type isEqualToString:@"CreatNew"]) {
+        
+        [self creatRootViewControllerWith3Dtouch:YES];
+        
+    }
+}
+
+- (void)creatRootViewControllerWith3Dtouch:(BOOL)is3Dtouch{
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    MasterViewController *masterVC = [[MasterViewController alloc] init];
+    masterVC.title = @"MarkWrite";
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:masterVC];
+    self.window.rootViewController = nav;
+    [self.window makeKeyAndVisible];
+    
+    //导航栏设置
+    nav.navigationBar.translucent = NO;
+    [nav.navigationBar setTitleTextAttributes:@{NSFontAttributeName:AAFont(37),NSForegroundColorAttributeName:COLOR(whiteColor)}];
+    nav.navigationBar.barTintColor = DOMINANTHUE;
+    nav.navigationBar.tintColor = COLOR(whiteColor);
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]){
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+        //第一次启动
+        //键盘状态
+        NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
+        [status setBool:YES forKey:@"aKeyboredStatus"];
+        [status setBool:NO forKey:@"pKeyboredStatus"];
+        [status setBool:NO forKey:@"tKeyboredStatus"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"first" object:nil];
+    }else{
+        //不是第一次启动了
+        
+    }
+    
+    self.openView = [[PasswordView alloc] initWithFrame:[UIScreen mainScreen].bounds isVerifyOpen:YES isOldPassword:NO isNewPassword:NO isVerifyNew:NO];
+    self.openView.backgroundColor = RGBCOLOR(230, 230, 230, 1.0);
+    _openView.inputPassword.delegate = self;
+    
+    if (is3Dtouch) {
+        
+        [masterVC addNewFile];
+    }
 }
 
 
