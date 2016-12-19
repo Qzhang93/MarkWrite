@@ -10,7 +10,6 @@
 #import "MasterTableViewCell.h"
 #import "PasswordView.h"
 #import "SortView.h"
-#import "addNewView.h"
 
 @interface MasterViewController ()<UISearchResultsUpdating,UIViewControllerPreviewingDelegate,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate, UISearchControllerDelegate>
 
@@ -53,12 +52,15 @@
 
 //新建
 @property (nonatomic, strong) UIButton *NewFileButton;
-@property (nonatomic, strong) addNewView *addNewView;
 
 @property (nonatomic, strong) UIAlertAction *sure;
 @property (nonatomic, strong) UITextField *renTextField;
 @property (nonatomic, assign) BOOL isRepetition;
 @property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic, strong) UITextField *nameTextField;
+@property (nonatomic, strong) UIAlertAction *sureAdd;
+//提示
+@property (nonatomic, strong) UILabel *reminder;
 
 @end
 
@@ -92,6 +94,11 @@
     [self showNewFileBtn];
     [self loadDataSource];
     [_tableView reloadData];
+    if (_dataSource.count == 0) {
+        _reminder.hidden = NO;
+    }else {
+        _reminder.hidden = YES;
+    }
 
 }
 
@@ -100,12 +107,8 @@
     [super viewWillDisappear:animated];
     
     [self hideNewFileBtn];
-    [_addNewView.fileName resignFirstResponder];
-    _sortButton.enabled = YES;
     _blackView.hidden = YES;
     _sortView.frame = AAdaptionRect(0, -181, 750, 181);
-    _addNewView.frame = AAdaptionRect(50, 1500, 650, 300);
-    _addNewView.fileName.text = @"";
 }
 
 #pragma mark - UI
@@ -153,13 +156,6 @@
     [_NewFileButton addTarget:self action:@selector(addNewFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_NewFileButton];
     
-    //新建
-    _addNewView = [[addNewView alloc] initWithFrame:AAdaptionRect(50, 1500, 650, 300)];
-    [self.view addSubview:_addNewView];
-    _addNewView.fileName.delegate = self;
-    [_addNewView.cancel addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
-    [_addNewView.save addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchUpInside];
-    
     //验证密码是否开启
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"pKeyboredStatus"]) {
         _openView = [[PasswordView alloc] initWithFrame:self.view.frame isVerifyOpen:YES isOldPassword:NO isNewPassword:NO isVerifyNew:NO];
@@ -188,6 +184,12 @@
         }
     }
     
+    _reminder = [[UILabel alloc] initWithFrame:AAdaptionRect(100, 600, 550, 80)];
+    _reminder.text = @"您还没有创建任何文档";
+    _reminder.textAlignment = NSTextAlignmentCenter;
+    _reminder.font = [UIFont boldSystemFontOfSize:AAdaption(40)];
+    _reminder.textColor = [UIColor whiteColor];
+    [self.view addSubview:_reminder];
 }
 
 
@@ -310,55 +312,78 @@
     [UIView animateWithDuration:0.3 animations:^{
         
         _NewFileButton.transform = CGAffineTransformIdentity;
-        [self.view bringSubviewToFront:_addNewView];
-        [self.view insertSubview:_blackView belowSubview:_addNewView];
-        [self withdrawAddNewAction];
-        [_addNewView.fileName becomeFirstResponder];
     }];
     
+    UIAlertController *addNewAlert = [UIAlertController alertControllerWithTitle:@"文件名" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [addNewAlert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        
+        textField.placeholder = @"请输入文件名";
+        [textField setClearButtonMode:UITextFieldViewModeWhileEditing];
+        _nameTextField = textField;
+        //发送通知监听TextField值改变
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextChanged) name:UITextFieldTextDidChangeNotification object:nil];
+        
+    }];
+    [addNewAlert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    _sureAdd = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self == %@", _nameTextField.text];
+            NSArray *result = [_dataSource filteredArrayUsingPredicate:predicate];
+            if (result.count > 0) {
+                [QWPTools showMessageWithTitle:@"提示" content:@"对不起，已存在与该名字相同的文件" disMissTime:1.5f];
+            } else {
+                NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+                NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md", _nameTextField.text]];
+                EditViewController *editVC = [[EditViewController alloc] init];
+                editVC.fileTitle = _nameTextField.text;
+                editVC.filePath = filePath;
+                [self.navigationController pushViewController:editVC animated:YES];
+            }
+        
+    }];
+    _sureAdd.enabled = NO;
+    [addNewAlert addAction:_sureAdd];
+    [self presentViewController:addNewAlert animated:YES completion:nil];
 }
 
-//取消新建
-- (void)cancelAction{
-    
-    [self withdrawAddNewAction];
+//重命名输入框文本发生改变执行该方法
+- (void)textFieldTextChanged {
+    if (_nameTextField.text.length > 0) {
+        [_sureAdd setEnabled:YES];
+    }else {
+        _sureAdd.enabled = NO;
+    }
 }
 
 //保存新建
 - (void)saveAction{
     
-    if (_addNewView.fileName.text.length == 0) {
-        
-        _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
-        _addNewView.fileName.placeholder = @"文件名不能为空";
-    } else {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self == %@",_addNewView.fileName.text];
-        NSArray *result = [_dataSource filteredArrayUsingPredicate:predicate];
-        if (result.count > 0) {
-            _addNewView.fileName.text = @"";
-            _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
-            _addNewView.fileName.placeholder = @"文件名重复";
-        } else {
-            NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-            NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_addNewView.fileName.text]];
-            EditViewController *editVC = [[EditViewController alloc] init];
-            editVC.fileTitle = _addNewView.fileName.text;
-            editVC.filePath = filePath;
-            [self.navigationController pushViewController:editVC animated:YES];
-        }
-    }
+//    if (_addNewView.fileName.text.length == 0) {
+//        
+//        _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
+//        _addNewView.fileName.placeholder = @"文件名不能为空";
+//    } else {
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self == %@",_addNewView.fileName.text];
+//        NSArray *result = [_dataSource filteredArrayUsingPredicate:predicate];
+//        if (result.count > 0) {
+//            _addNewView.fileName.text = @"";
+//            _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
+//            _addNewView.fileName.placeholder = @"文件名重复";
+//        } else {
+//            NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+//            NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_addNewView.fileName.text]];
+//            EditViewController *editVC = [[EditViewController alloc] init];
+//            editVC.fileTitle = _addNewView.fileName.text;
+//            editVC.filePath = filePath;
+//            [self.navigationController pushViewController:editVC animated:YES];
+//        }
+//    }
 }
 
 //点击屏幕空余部分收回视图
 - (void)gesturePressed{
     
-    if (_sortView.frame.origin.y == -AAdaption(181)) {
-       [self withdrawAddNewAction];
-    }
-    
-    if (_sortView.frame.origin.y == 0) {
-        [self withdrawSortAction];
-    }
+    [self withdrawSortAction];
     
 }
 
@@ -383,26 +408,6 @@
     [UIView animateWithDuration:0.3 animations:^{
         _sortView.frame = AAdaptionRect(0, _sortView.frame.origin.y == 0 ? -181 : 0, 750, 181);
     }];
-}
-
-- (void)withdrawAddNewAction{
-    
-    [_addNewView.fileName resignFirstResponder];
-    _addNewView.fileName.layer.borderColor = [UIColor colorWithRed:0.902 green:0.898 blue:0.902 alpha:1].CGColor;
-    _addNewView.fileName.placeholder = @"";
-    _sortButton.enabled = !_sortButton.enabled;
-    _blackView.hidden = !_blackView.hidden;
-    if (_addNewView.frame.origin.y > AAdaption(1334)){
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            _addNewView.frame = AAdaptionRect(50, 200, 650, 300);
-        }];
-    }else {
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            _addNewView.frame = AAdaptionRect(50, 1500, 650, 300);
-        }];
-    }
 }
 
 - (void)hideNewFileBtn{
@@ -520,6 +525,9 @@
         if (rename == NO) {
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationAutomatic];
+            if (_dataSource.count == 0) {
+                _reminder.hidden = NO;
+            }
         } else {
             //表格视图退出编辑状态
             _tableView.editing = NO;
@@ -613,81 +621,68 @@
 
 #pragma mark - <UITextFieldDelegate>
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    
-    if (textField == _openView.inputPassword) {
         
-        switch (range.location) {
-            case 0:
-            {
-                _openView.first.hidden = !_openView.first.hidden;
-                _openView.firstR.hidden = !_openView.firstR.hidden;
-            }
-                break;
-                
-            case 1:
-            {
-                _openView.second.hidden = !_openView.second.hidden;
-                _openView.secondR.hidden = !_openView.secondR.hidden;
-            }
-                break;
-                
-            case 2:
-            {
-                _openView.third.hidden = !_openView.third.hidden;
-                _openView.thirdR.hidden = !_openView.thirdR.hidden;
-            }
-                break;
-                
-            case 3:
-            {
-                _openView.fourth.hidden = !_openView.fourth.hidden;
-                _openView.fourthR.hidden = !_openView.fourthR.hidden;
-                
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    if ([_openView.inputPassword.text isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]]) {
-                        
-                        _openView.errorOld.hidden = YES;
-                        [_openView removeFromSuperview];
-                    } else {
-                        
-                        _openView.errorOld.hidden = NO;
-                        _openView.inputPassword.text = @"";
-                        NSArray *array = @[_openView.first,_openView.second,_openView.third,_openView.fourth];
-                        NSArray *arrayR = @[_openView.firstR,_openView.secondR,_openView.thirdR,_openView.fourthR];
-                        for (UILabel *label in array) {
-                            label.hidden = NO;
-                        }
-                        for (UILabel *labelR in arrayR) {
-                            labelR.hidden = YES;
-                        }
-                    }
-                    
-                });
-                
-            }
-                break;
-                
-            default:
-                break;
+    switch (range.location) {
+        case 0:
+        {
+            _openView.first.hidden = !_openView.first.hidden;
+            _openView.firstR.hidden = !_openView.firstR.hidden;
         }
-        
-        if (range.location >= 4) {
+            break;
             
-            return NO;
+        case 1:
+        {
+            _openView.second.hidden = !_openView.second.hidden;
+            _openView.secondR.hidden = !_openView.secondR.hidden;
         }
-        return YES;
+            break;
+            
+        case 2:
+        {
+            _openView.third.hidden = !_openView.third.hidden;
+            _openView.thirdR.hidden = !_openView.thirdR.hidden;
+        }
+            break;
+            
+        case 3:
+        {
+            _openView.fourth.hidden = !_openView.fourth.hidden;
+            _openView.fourthR.hidden = !_openView.fourthR.hidden;
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                if ([_openView.inputPassword.text isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]]) {
+                    
+                    _openView.errorOld.hidden = YES;
+                    [_openView removeFromSuperview];
+                } else {
+                    
+                    _openView.errorOld.hidden = NO;
+                    _openView.inputPassword.text = @"";
+                    NSArray *array = @[_openView.first,_openView.second,_openView.third,_openView.fourth];
+                    NSArray *arrayR = @[_openView.firstR,_openView.secondR,_openView.thirdR,_openView.fourthR];
+                    for (UILabel *label in array) {
+                        label.hidden = NO;
+                    }
+                    for (UILabel *labelR in arrayR) {
+                        labelR.hidden = YES;
+                    }
+                }
+                
+            });
+            
+        }
+            break;
+            
+        default:
+            break;
     }
     
-    else {
+    if (range.location >= 4) {
         
-        if (range.location == 0) {
-            _addNewView.fileName.layer.borderColor = [UIColor colorWithRed:0.902 green:0.898 blue:0.902 alpha:1].CGColor;
-            _addNewView.fileName.placeholder = @"";
-        }
-        
-        return YES;
+        return NO;
     }
+    return YES;
 }
 
 #pragma mark - <UIViewControllerPreviewingDelegate>
