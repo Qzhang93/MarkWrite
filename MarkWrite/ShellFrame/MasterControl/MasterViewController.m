@@ -58,6 +58,7 @@
 @property (nonatomic, strong) UIAlertAction *sure;
 @property (nonatomic, strong) UITextField *renTextField;
 @property (nonatomic, assign) BOOL isRepetition;
+@property (nonatomic, strong) NSIndexPath *indexPath;
 
 @end
 
@@ -78,6 +79,9 @@
     [self loadArray];
     [self loadDataSource];
     self.definesPresentationContext = YES;
+    //接收通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rename) name:@"Rename" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(delete) name:@"Delete" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -363,6 +367,14 @@
     
     [[[UIApplication sharedApplication] keyWindow] addSubview:_openView];
 }
+//接收通知后重命名
+- (void)rename {
+    [self renameWithIndexPath:_indexPath];
+}
+//接收通知后删除
+- (void)delete {
+    [self deleteSelectObjectAtIndexPath:_indexPath isRename:NO];
+}
 
 #pragma mark - Animation Method
 - (void)withdrawSortAction{
@@ -383,7 +395,7 @@
     if (_addNewView.frame.origin.y > AAdaption(1334)){
         
         [UIView animateWithDuration:0.5 animations:^{
-            _addNewView.frame = AAdaptionRect(50, 250, 650, 300);
+            _addNewView.frame = AAdaptionRect(50, 200, 650, 300);
         }];
     }else {
         
@@ -483,59 +495,8 @@
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     //重命名按钮
     UITableViewRowAction *renAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"重命名" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"重命名" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        //取消按钮
-        UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            //表格视图退出编辑状态
-            _tableView.editing = NO;
-        }];
-        //确定按钮
-        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            //创建文件管理者
-            NSFileManager *fileMgr = [[NSFileManager alloc] init];
-            //获取本地文件目录
-            NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-            //获取旧文件路径
-            NSString *oldFilePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_dataSource[indexPath.row]]];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self == %@",_renTextField.text];
-            NSArray *result = [_dataSource filteredArrayUsingPredicate:predicate];
-            if (result.count > 0) {
-                [QWPTools showMessageWithTitle:@"提示" content:@"对不起，已存在与该名字相同的文件" disMissTime:1.5f];
-                //表格视图退出编辑状态
-                _tableView.editing = NO;
-            } else {
-                //创建新文件路径
-                NSString *newFilePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_renTextField.text]];
-                //获取旧文件内容
-                NSString *oldFileContents = [NSString stringWithContentsOfFile:oldFilePath encoding:NSUTF8StringEncoding error:nil];
-                //将旧文件内容转换成Data
-                NSData *fileData = [oldFileContents dataUsingEncoding:NSUTF8StringEncoding];
-                //将旧文件内容保存到新文件
-                if ([fileMgr createFileAtPath:newFilePath contents:fileData attributes:nil]) {
-                    //删除旧文件
-                    [self deleteSelectObjectAtIndexPath:indexPath isRename:YES];
-                    //重新加载数据
-                    [self loadDataSource];
-                }
-            }
-        }];
-        [sure setEnabled:NO];
-        self.sure = sure;
-
-        [alert addAction:cancle];
-        [alert addAction:sure];
-        
-        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"请输入新名字";
-            [textField setClearButtonMode:UITextFieldViewModeWhileEditing];
-            _renTextField = textField;
-            //发送通知监听TextField值改变
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextChanged:) name:UITextFieldTextDidChangeNotification object:nil];
-           
-        }];
-        [self presentViewController:alert animated:YES completion:nil];
+        [self renameWithIndexPath:indexPath];
     }];
-    
     //删除按钮
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         [self deleteSelectObjectAtIndexPath:indexPath isRename:NO];
@@ -567,6 +528,60 @@
         }
         
     }
+}
+//重命名
+- (void)renameWithIndexPath:(NSIndexPath *)indexPath {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"重命名" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    //取消按钮
+    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //表格视图退出编辑状态
+        _tableView.editing = NO;
+    }];
+    //确定按钮
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //创建文件管理者
+        NSFileManager *fileMgr = [[NSFileManager alloc] init];
+        //获取本地文件目录
+        NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        //获取旧文件路径
+        NSString *oldFilePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_dataSource[indexPath.row]]];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self == %@",_renTextField.text];
+        NSArray *result = [_dataSource filteredArrayUsingPredicate:predicate];
+        if (result.count > 0) {
+            [QWPTools showMessageWithTitle:@"提示" content:@"对不起，已存在与该名字相同的文件" disMissTime:1.5f];
+            //表格视图退出编辑状态
+            _tableView.editing = NO;
+        } else {
+            //创建新文件路径
+            NSString *newFilePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_renTextField.text]];
+            //获取旧文件内容
+            NSString *oldFileContents = [NSString stringWithContentsOfFile:oldFilePath encoding:NSUTF8StringEncoding error:nil];
+            //将旧文件内容转换成Data
+            NSData *fileData = [oldFileContents dataUsingEncoding:NSUTF8StringEncoding];
+            //将旧文件内容保存到新文件
+            if ([fileMgr createFileAtPath:newFilePath contents:fileData attributes:nil]) {
+                //删除旧文件
+                [self deleteSelectObjectAtIndexPath:indexPath isRename:YES];
+                //重新加载数据
+                [self loadDataSource];
+            }
+        }
+    }];
+    [sure setEnabled:NO];
+    self.sure = sure;
+    
+    [alert addAction:cancle];
+    [alert addAction:sure];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"请输入新名字";
+        [textField setClearButtonMode:UITextFieldViewModeWhileEditing];
+        _renTextField = textField;
+        //发送通知监听TextField值改变
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+        
+    }];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 //重命名输入框文本改变执行该方法
 - (void)textFieldTextChanged:(NSNotification *)notification{
@@ -687,13 +702,13 @@
         CGPoint p = [_tableView convertPoint:CGPointMake(location.x, location.y ) fromView:self.view];
         
         // 通过坐标活的当前cell indexPath
-        NSIndexPath *indexPath = [_tableView indexPathForRowAtPoint:CGPointMake(p.x, p.y)];
+        _indexPath = [_tableView indexPathForRowAtPoint:CGPointMake(p.x, p.y)];
         // 获得当前cell
-        UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
+        UITableViewCell *cell = [_tableView cellForRowAtIndexPath:_indexPath];
         
         EditViewController *editVC = [[EditViewController alloc] init];
         editVC.preferredContentSize = AAdaptionSize(0, 1200);
-        editVC.fileTitle = _dataSource[indexPath.row];
+        editVC.fileTitle = _dataSource[_indexPath.row];
         editVC.openFile = @"openFile";
         CGRect rect = cell.frame;
         previewingContext.sourceRect = rect;

@@ -226,12 +226,13 @@
 - (NSArray<id<UIPreviewActionItem>> *)previewActionItems{
     
     UIPreviewAction *renameAction = [UIPreviewAction actionWithTitle:@"重命名" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
-        
-        
+        //发送重命名通知
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Rename" object:nil];
     }];
     
     UIPreviewAction *deleteAction = [UIPreviewAction actionWithTitle:@"删除" style:UIPreviewActionStyleDestructive handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
-        NSLog(@"Action 2 selected");
+        //发送删除通知
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Delete" object:nil];
     }];
     
     return @[renameAction, deleteAction];
