@@ -383,7 +383,7 @@
     if (_addNewView.frame.origin.y > AAdaption(1334)){
         
         [UIView animateWithDuration:0.5 animations:^{
-            _addNewView.frame = AAdaptionRect(50, 250, 650, 300);
+            _addNewView.frame = AAdaptionRect(50, 200, 650, 300);
         }];
     }else {
         

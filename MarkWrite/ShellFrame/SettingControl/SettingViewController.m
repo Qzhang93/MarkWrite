@@ -200,7 +200,7 @@
                     
                 //好评鼓励
                 case 0: {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/shan-shan-pen-di-fu-nu-jian/id1049660516?mt=8"] options:@{} completionHandler:nil];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/wei-xin/id414478124?mt=8"] options:@{} completionHandler:nil];
                 }
                     break;
                     
