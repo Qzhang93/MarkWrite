@@ -34,7 +34,7 @@
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)forBarMetrics:UIBarMetricsDefault];
     //logo
     _logoImageView = [[UIImageView alloc] initWithFrame:AAdaptionRect(275, 120, 200, 200)];
-    _logoImageView.backgroundColor = COLOR(cyanColor);
+    _logoImageView.image = IMGNAME(@"icon");
     _logoImageView.layer.cornerRadius = 10;
     [self.view addSubview:_logoImageView];
     //版本
