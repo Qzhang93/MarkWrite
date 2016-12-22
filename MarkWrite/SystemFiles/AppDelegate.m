@@ -51,25 +51,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     
-    [_openView.inputPassword becomeFirstResponder];
-    //验证touchID是否开启
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"tKeyboredStatus"]) {
-        
-        LAContext *context = [[LAContext alloc] init];
-        NSError *error = nil;
-        //验证机器是否支持指纹识别
-        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
-            //支持指纹识别
-            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"验证指纹以解锁" reply:^(BOOL success, NSError * _Nullable error) {
-                if (success) {
-                    //验证成功
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [_openView removeFromSuperview];
-                    });
-                }
-            }];
-        }
-    }
+    [self checkTouchID];
 }
 
 
@@ -155,6 +137,30 @@
         return NO;
     }
     return YES;
+}
+
+#pragma mark - touchID
+- (void)checkTouchID{
+    
+    [_openView.inputPassword becomeFirstResponder];
+    //验证touchID是否开启
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"tKeyboredStatus"]) {
+        
+        LAContext *context = [[LAContext alloc] init];
+        NSError *error = nil;
+        //验证机器是否支持指纹识别
+        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+            //支持指纹识别
+            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"验证指纹以解锁" reply:^(BOOL success, NSError * _Nullable error) {
+                if (success) {
+                    //验证成功
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_openView removeFromSuperview];
+                    });
+                }
+            }];
+        }
+    }
 }
 
 #pragma mark - 3Dtouch

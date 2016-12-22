@@ -355,31 +355,6 @@
     }
 }
 
-//保存新建
-- (void)saveAction{
-    
-//    if (_addNewView.fileName.text.length == 0) {
-//        
-//        _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
-//        _addNewView.fileName.placeholder = @"文件名不能为空";
-//    } else {
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self == %@",_addNewView.fileName.text];
-//        NSArray *result = [_dataSource filteredArrayUsingPredicate:predicate];
-//        if (result.count > 0) {
-//            _addNewView.fileName.text = @"";
-//            _addNewView.fileName.layer.borderColor = COLOR(redColor).CGColor;
-//            _addNewView.fileName.placeholder = @"文件名重复";
-//        } else {
-//            NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-//            NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.md",_addNewView.fileName.text]];
-//            EditViewController *editVC = [[EditViewController alloc] init];
-//            editVC.fileTitle = _addNewView.fileName.text;
-//            editVC.filePath = filePath;
-//            [self.navigationController pushViewController:editVC animated:YES];
-//        }
-//    }
-}
-
 //点击屏幕空余部分收回视图
 - (void)gesturePressed{
     
